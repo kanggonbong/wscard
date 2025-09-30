@@ -12,110 +12,51 @@
   <meta name="apple-mobile-web-app-title" content="우성고 카드">
   <link rel="apple-touch-icon" href="icon-192.png">
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
     html, body { height: 100%; margin: 0; }
-    body { background-color: #e0e5ec; }
+    body { background-color: #e0e5ec; font-family: sans-serif; }
     iframe { border: 0; width: 100%; height: 100%; }
-
-    /* PWA 설치 안내 모달 관련 스타일 */
-    .pwa-modal-overlay {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.4);
-      backdrop-filter: blur(5px);
-      display: grid;
-      place-items: center;
-      z-index: 10010;
-      padding: 16px;
+    
+    /* SweetAlert2 커스텀 스타일 */
+    .swal2-popup {
+        background: #e0e5ec !important;
+        border-radius: 20px !important;
+        box-shadow: 9px 9px 16px rgba(163, 177, 198, 0.7), -9px -9px 16px rgba(255, 255, 255, 0.9) !important;
     }
-    .pwa-modal-content {
-      width: min(420px, 100%);
-      background: #e0e5ec;
-      border-radius: 24px;
-      box-shadow: 9px 9px 16px rgba(163, 177, 198, 0.7), -9px -9px 16px rgba(255, 255, 255, 0.9);
-      padding: 24px 28px;
-      text-align: center;
-      position: relative;
+    .swal2-title { color: #3d4a5c !important; }
+    .swal2-html-container { color: #5a677b !important; text-align: left !important; }
+    .help-steps { margin: 12px 0 8px 20px; padding: 0; line-height: 1.8; }
+    .help-steps li { margin: 8px 0; }
+    .swal2-confirm, .swal2-cancel {
+        border-radius: 12px !important;
+        font-weight: 700 !important;
+        box-shadow: 4px 4px 8px rgba(163, 177, 198, 0.7), -4px -4px 8px rgba(255, 255, 255, 0.9) !important;
+        transition: all 0.2s ease !important;
     }
-    .pwa-modal-close{
-      position:absolute; top:10px; right:12px;
-      background:transparent; border:none; font-size:22px; line-height:1;
-      color: #5a677b; cursor:pointer;
+    .swal2-confirm { background: #e0e5ec !important; color: #007aff !important; }
+    .swal2-cancel { background: #e0e5ec !important; color: #5a677b !important; }
+    .swal2-confirm:active, .swal2-cancel:active {
+        box-shadow: inset 4px 4px 8px rgba(163, 177, 198, 0.7), inset -4px -4px 8px rgba(255, 255, 255, 0.9) !important;
+        transform: scale(.98);
     }
-    .pwa-modal-text { text-align: left; }
-    .pwa-modal-text strong {
-        font-size: 1.4rem;
-        color: #3d4a5c;
-        font-weight: 700;
-        display: block;
-        margin-bottom: 4px;
-    }
-    .help-steps{
-      margin: 12px 0 8px 20px;
-      padding: 0;
-      line-height: 1.7;
-      font-size: 1.05rem;
-      color: #5a677b;
-    }
-    .help-steps li{ margin: 8px 0; }
-    .help-steps b { color: #3d4a5c; }
-    .help-badge{
-      display:inline-block;
-      font-size:.75rem;
-      font-weight:700;
-      padding:2px 8px;
-      border-radius:999px;
-      background: rgba(0,0,0,.06);
-      color: #3d4a5c;
-    }
-    .pwa-btn{
-      border: none; border-radius: 12px; padding: 12px 16px; font-size: 1rem; font-weight: 700; cursor: pointer;
-      background: #e0e5ec;
-      box-shadow: 4px 4px 8px rgba(163, 177, 198, 0.7), -4px -4px 8px rgba(255, 255, 255, 0.9);
-      color: #007aff;
-      transition: all 0.2s ease;
-    }
-    .pwa-btn:active{ box-shadow: inset 4px 4px 8px rgba(163, 177, 198, 0.7), inset -4px -4px 8px rgba(255, 255, 255, 0.9); transform: scale(.98); }
-    .pwa-btn-ghost{ color: #5a677b; }
-
-    .pwa-modal-actions { margin-top: 18px; display: flex; gap: 12px; }
-    .pwa-modal-actions .pwa-btn { flex: 1; }
   </style>
 
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(console.error);
+    }
+  </script>
 </head>
 <body>
   <iframe src="https://script.google.com/macros/s/AKfycbwjEhjg-kro_4Brw-SovaiXg-261HPuBdfh09kilG8L-TcLg6aIfPOr6lMEGAYOIT1fPQ/exec"></iframe>
 
-  <div id="install-help-modal-overlay" class="pwa-modal-overlay" hidden>
-    <div class="pwa-modal-content">
-      <button id="help-close-x" class="pwa-modal-close" aria-label="닫기">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-      <div class="pwa-modal-text">
-        <strong id="help-title">홈 화면에 추가 안내</strong>
-        <span id="help-badge" class="help-badge" aria-hidden="true"></span>
-        <ol id="help-steps" class="help-steps"></ol>
-      </div>
-      <div class="pwa-modal-actions">
-        <button id="help-close-simple-btn" class="pwa-btn pwa-btn-ghost">닫기</button>
-        <button id="help-hide-day-btn" class="pwa-btn">오늘 하루 보지 않기</button>
-      </div>
-    </div>
-  </div>
-
   <script>
   document.addEventListener('DOMContentLoaded', () => {
       const LS_KEY_DAY = 'installHelpDismissedDay';
-      const modalOverlay = document.getElementById('install-help-modal-overlay');
       const ua = navigator.userAgent || '';
       const isiOS = /iPhone|iPad|iPod/i.test(ua);
-
-      // --- 핵심 수정: 크롬의 자동 배너를 강제로 비활성화합니다 ---
-      window.addEventListener('beforeinstallprompt', (e) => {
-          e.preventDefault();
-      });
 
       const isStandaloneNow = () => {
           try {
@@ -126,17 +67,15 @@
               return false;
           }
       };
-
-      if (isStandaloneNow()) {
-          if (modalOverlay) modalOverlay.hidden = true;
-          return;
-      }
+      
+      // 앱이 설치된 상태이면 스크립트를 즉시 종료
+      if (isStandaloneNow()) return;
 
       const guide = {
-          android_chrome: { badge: 'Android · Chrome', steps: ['오른쪽 위 <b>⋮ 메뉴</b>를 누릅니다.', '<b>앱 설치</b> 또는 <b>홈 화면에 추가</b>를 선택합니다.']},
-          android_samsung: { badge: 'Android · Samsung Internet', steps: ['오른쪽 아래 <b>≡ 메뉴</b>를 누릅니다.', '<b>페이지 추가</b>를 선택합니다.', '<b>홈 화면</b>을 눌러 완료합니다.']},
-          ios_safari: { badge: 'iOS · Safari', steps: ['하단의 <b>공유 버튼(□↑)</b>을 누릅니다.', '<b>홈 화면에 추가</b>를 선택합니다.', '오른쪽 위 <b>추가</b>를 눌러 완료합니다.']},
-          default: { badge: '안내', steps: ['브라우저의 <b>메뉴</b>를 엽니다.', '<b>홈 화면에 추가</b> 또는 <b>앱 설치</b>를 선택합니다.']}
+          android_chrome: { title: 'Chrome에서 설치', steps: ['오른쪽 위 <b>점 3개(⋮) 메뉴</b>를 누릅니다.', '<b>홈 화면에 추가</b> 또는 <b>앱 설치</b>를 선택합니다.']},
+          android_samsung: { title: '삼성 인터넷에서 설치', steps: ['오른쪽 아래 <b>선 3개(≡) 메뉴</b>를 누릅니다.', '<b>페이지 추가</b>를 선택합니다.', '<b>홈 화면</b>을 눌러 완료합니다.']},
+          ios_safari: { title: 'iPhone/iPad에서 설치', steps: ['하단의 <b>공유 버튼(□↑)</b>을 누릅니다.', '<b>홈 화면에 추가</b>를 선택합니다.', '오른쪽 위 <b>추가</b>를 눌러 완료합니다.']},
+          default: { title: '홈 화면에 추가 안내', steps: ['브라우저의 <b>메뉴</b>를 엽니다.', '<b>홈 화면에 추가</b> 또는 <b>앱 설치</b>를 선택합니다.']}
       };
 
       const pickKey = () => {
@@ -152,41 +91,35 @@
       
       const guideConfig = guide[pickKey()] || guide.default;
 
-      const openModal = () => {
-          if (!modalOverlay) return;
-          document.getElementById('help-title').textContent = '홈 화면에 추가 안내';
-          document.getElementById('help-badge').textContent = guideConfig.badge;
-          document.getElementById('help-steps').innerHTML = guideConfig.steps.map(s => `<li>${s}</li>`).join('');
-          modalOverlay.hidden = false;
-      };
-
-      const hideModal = () => {
-          if (modalOverlay) modalOverlay.hidden = true;
-      };
-
-      const hideToday = () => {
-          localStorage.setItem(LS_KEY_DAY, new Date().toDateString());
-          hideModal();
+      const openInstallModal = () => {
+          Swal.fire({
+              title: guideConfig.title,
+              html: `<ol class="help-steps">${guideConfig.steps.map(s => `<li>${s}</li>`).join('')}</ol>`,
+              showCancelButton: true,
+              confirmButtonText: '오늘 하루 보지 않기',
+              cancelButtonText: '닫기',
+              customClass: { popup: 'swal2-popup' }
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  localStorage.setItem(LS_KEY_DAY, new Date().toDateString());
+              }
+          });
       };
 
       const showModalIfNeeded = () => {
           const dismissedToday = localStorage.getItem(LS_KEY_DAY) === new Date().toDateString();
-          if (dismissedToday) {
-              return;
+          if (!dismissedToday) {
+              openInstallModal();
           }
-          openModal();
       };
 
-      // 이벤트 연결
-      document.getElementById('help-close-x')?.addEventListener('click', hideModal);
-      document.getElementById('help-close-simple-btn')?.addEventListener('click', hideModal);
-      document.getElementById('help-hide-day-btn')?.addEventListener('click', hideToday);
-      modalOverlay?.addEventListener('click', (e) => {
-          if (e.target === modalOverlay) hideModal();
+      // 크롬의 자동 설치 배너는 사용하지 않음
+      window.addEventListener('beforeinstallprompt', (e) => {
+          e.preventDefault();
       });
 
-      // 최초 실행
-      setTimeout(showModalIfNeeded, 1200);
+      // 약간의 지연 후 모달 표시
+      setTimeout(showModalIfNeeded, 1500);
   });
   </script>
 </body>
