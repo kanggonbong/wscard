@@ -12,6 +12,7 @@
   <meta name="apple-mobile-web-app-title" content="우성고 카드">
   <link rel="apple-touch-icon" href="icon-192.png">
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
@@ -19,7 +20,6 @@
     body { background-color: #e0e5ec; font-family: sans-serif; }
     iframe { border: 0; width: 100%; height: 100%; }
     
-    /* SweetAlert2 커스텀 스타일 */
     .swal2-popup {
         background: #e0e5ec !important;
         border-radius: 20px !important;
@@ -29,17 +29,30 @@
     .swal2-html-container { color: #5a677b !important; text-align: left !important; }
     .help-steps { margin: 12px 0 8px 20px; padding: 0; line-height: 1.8; }
     .help-steps li { margin: 8px 0; }
-    .swal2-confirm, .swal2-cancel {
+    .swal2-confirm {
         border-radius: 12px !important;
         font-weight: 700 !important;
+        background: #e0e5ec !important;
+        color: #007aff !important;
         box-shadow: 4px 4px 8px rgba(163, 177, 198, 0.7), -4px -4px 8px rgba(255, 255, 255, 0.9) !important;
         transition: all 0.2s ease !important;
     }
-    .swal2-confirm { background: #e0e5ec !important; color: #007aff !important; }
-    .swal2-cancel { background: #e0e5ec !important; color: #5a677b !important; }
-    .swal2-confirm:active, .swal2-cancel:active {
+    .swal2-confirm:active {
         box-shadow: inset 4px 4px 8px rgba(163, 177, 198, 0.7), inset -4px -4px 8px rgba(255, 255, 255, 0.9) !important;
         transform: scale(.98);
+    }
+    #install-help-reopen {
+        position: fixed; right: 16px; bottom: 16px; z-index: 10005;
+        width: 48px; height: 48px; border-radius: 50%;
+        border: none; cursor: pointer;
+        font-size: 1.5rem; font-weight: 700;
+        background: #e0e5ec;
+        color: #3d4a5c;
+        box-shadow: 6px 6px 12px rgba(163, 177, 198, 0.7), -6px -6px 12px rgba(255, 255, 255, 0.9);
+        transition: all 0.2s ease;
+    }
+    #install-help-reopen:active {
+        box-shadow: inset 4px 4px 8px rgba(163, 177, 198, 0.7), inset -4px -4px 8px rgba(255, 255, 255, 0.9);
     }
   </style>
 
@@ -52,9 +65,11 @@
 <body>
   <iframe src="https://script.google.com/macros/s/AKfycbwjEhjg-kro_4Brw-SovaiXg-261HPuBdfh09kilG8L-TcLg6aIfPOr6lMEGAYOIT1fPQ/exec"></iframe>
 
+  <button id="install-help-reopen" title="설치 도움말" hidden>?</button>
+  
   <script>
   document.addEventListener('DOMContentLoaded', () => {
-      const LS_KEY_DAY = 'installHelpDismissedDay';
+      const reopenBtn = document.getElementById('install-help-reopen');
       const ua = navigator.userAgent || '';
       const isiOS = /iPhone|iPad|iPod/i.test(ua);
 
@@ -63,16 +78,16 @@
               const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
               const isIOSStandalone = isiOS && window.navigator.standalone === true;
               return isStandalone || isIOSStandalone;
-          } catch (e) {
-              return false;
-          }
+          } catch (e) { return false; }
       };
       
-      // 앱이 설치된 상태이면 스크립트를 즉시 종료
-      if (isStandaloneNow()) return;
+      if (isStandaloneNow()) {
+          if (reopenBtn) reopenBtn.hidden = true;
+          return; 
+      }
 
       const guide = {
-          android_chrome: { title: 'Chrome에서 설치', steps: ['오른쪽 위 <b>점 3개(⋮) 메뉴</b>를 누릅니다.', '<b>홈 화면에 추가</b> 또는 <b>앱 설치</b>를 선택합니다.']},
+          android_chrome: { title: 'Chrome에서 설치', steps: ['오른쪽 위 <b>점 3개(⋮) 메뉴</b>를 누릅니다.', '<b>앱 설치</b> 또는 <b>홈 화면에 추가</b>를 선택합니다.']},
           android_samsung: { title: '삼성 인터넷에서 설치', steps: ['오른쪽 아래 <b>선 3개(≡) 메뉴</b>를 누릅니다.', '<b>페이지 추가</b>를 선택합니다.', '<b>홈 화면</b>을 눌러 완료합니다.']},
           ios_safari: { title: 'iPhone/iPad에서 설치', steps: ['하단의 <b>공유 버튼(□↑)</b>을 누릅니다.', '<b>홈 화면에 추가</b>를 선택합니다.', '오른쪽 위 <b>추가</b>를 눌러 완료합니다.']},
           default: { title: '홈 화면에 추가 안내', steps: ['브라우저의 <b>메뉴</b>를 엽니다.', '<b>홈 화면에 추가</b> 또는 <b>앱 설치</b>를 선택합니다.']}
@@ -92,34 +107,28 @@
       const guideConfig = guide[pickKey()] || guide.default;
 
       const openInstallModal = () => {
+          if (reopenBtn) reopenBtn.hidden = true;
           Swal.fire({
               title: guideConfig.title,
               html: `<ol class="help-steps">${guideConfig.steps.map(s => `<li>${s}</li>`).join('')}</ol>`,
-              showCancelButton: true,
-              confirmButtonText: '오늘 하루 보지 않기',
-              cancelButtonText: '닫기',
-              customClass: { popup: 'swal2-popup' }
-          }).then((result) => {
-              if (result.isConfirmed) {
-                  localStorage.setItem(LS_KEY_DAY, new Date().toDateString());
+              confirmButtonText: '확인',
+              customClass: { popup: 'swal2-popup' },
+              didClose: () => {
+                  if (reopenBtn) reopenBtn.hidden = false;
               }
           });
       };
-
-      const showModalIfNeeded = () => {
-          const dismissedToday = localStorage.getItem(LS_KEY_DAY) === new Date().toDateString();
-          if (!dismissedToday) {
-              openInstallModal();
-          }
-      };
-
-      // 크롬의 자동 설치 배너는 사용하지 않음
+      
+      // 크롬 자동 배너 비활성화
       window.addEventListener('beforeinstallprompt', (e) => {
           e.preventDefault();
       });
 
-      // 약간의 지연 후 모달 표시
-      setTimeout(showModalIfNeeded, 1500);
+      // 이벤트 연결
+      reopenBtn?.addEventListener('click', openInstallModal);
+
+      // 약간의 지연 후 모달 최초 실행
+      setTimeout(openInstallModal, 1500);
   });
   </script>
 </body>
