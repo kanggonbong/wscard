@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>우성고 카드 시스템 설치</title>
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#e0e5ec">
+  <meta name="theme-color" content="#007aff">
   
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -13,6 +13,7 @@
   <link rel="apple-touch-icon" href="icon-192.png">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
     html, body { 
@@ -103,7 +104,7 @@
         <div id="guide-chrome" class="install-guide">
             <h2><i class="fab fa-chrome"></i>Chrome (크롬)</h2>
             <ol>
-                <li>화면 오른쪽 위에 있는 <b>점 3개(⋮) 모양의 메뉴</b> 버튼 클릭.</li>
+                <li>오른쪽 위<b>점 3개(⋮) 모양의 메뉴</b> 버튼 클릭.</li>
                 <li>열리는 메뉴에서 <b>'홈 화면에 추가'</b> 항목 선택.</li>
                 <li>팝업창에서 <b>'설치'</b> 버튼 클릭.</li>
             </ol>
@@ -112,18 +113,18 @@
         <div id="guide-samsung" class="install-guide">
             <h2><i class="fa-solid fa-mobile-screen-button"></i>Samsung Internet (삼성)</h2>
             <ol>
-                <li>화면 오른쪽 아래에 있는 <b>선 3개(≡) 모양의 메뉴</b> 클릭.</li>
+                <li>오른쪽 아래 <b>선 3개(≡) 모양의 메뉴</b> 클릭.</li>
                 <li>열리는 메뉴에서 <b>'추가'</b> 버튼 선택.</li>
                 <li>다음 메뉴에서 <b>'웹앱으로 설치'</b> 선택.</li>
             </ol>
         </div>
 
         <div id="guide-ios" class="install-guide">
-            <h2><i class="fab fa-safari"></i>Safari (아이폰, 아이패드)</h2>
+            <h2><i class="fab fa-apple"></i>iPhone / iPad (아이폰)</h2>
             <ol>
-                <li>화면 하단 중앙의 <b>공유 버튼(□↑)</b> 클릭.</li>
-                <li><b>'홈 화면에 추가'</b> 항목 선택.</li>
-                <li>오른쪽 위의 <b>'추가'</b> 버튼 클릭.</li>
+                <li>상단or하단 <b>메뉴(공유 □↑ 또는 …)</b> 클릭.</li>
+                <li>열리는 메뉴에서 <b>'홈 화면에 추가'</b>를 찾습니다.<br><small>(만약 보이지 않으면, 목록 하단의 '더보기'나 '편집'을 눌러 추가할 수 있습니다.)</small></li>
+                <li>오른쪽 위의 <b>'추가'</b> 버튼을 눌러 설치를 완료합니다.</li>
             </ol>
         </div>
     </div>
@@ -142,13 +143,10 @@
           }
       };
       
-      // 앱이 설치된 상태로 실행되었다면, 설치 안내 페이지 대신 앱(iframe)을 즉시 로드합니다.
       if (isStandaloneNow()) {
           document.body.innerHTML = '<iframe src="https://script.google.com/macros/s/AKfycbwjEhjg-kro_4Brw-SovaiXg-261HPuBdfh09kilG8L-TcLg6aIfPOr6lMEGAYOIT1fPQ/exec"></iframe>';
           return; 
       }
-
-      // --- 앱이 설치되지 않은 경우에만 아래 로직 실행 ---
 
       const pickKey = () => {
           if (isiOS) return 'ios';
@@ -156,13 +154,10 @@
           const isSamsung = /SamsungBrowser/i.test(ua);
           if (isSamsung) return 'samsung';
           
-          const isChromeAn = /Android/i.test(ua) && /Chrome\/\d+/i.test(ua);
-          if (isChromeAn) return 'chrome';
-          
-          return 'chrome'; // 기본값은 크롬으로 설정
+          // 그 외 안드로이드 브라우저는 대부분 크롬 기반이므로 chrome 안내를 기본으로 보여줍니다.
+          return 'chrome'; 
       };
       
-      // 감지된 브라우저에 맞는 안내문만 화면에 보여줍니다.
       const guideElement = document.getElementById(`guide-${pickKey()}`);
       if (guideElement) {
           guideElement.style.display = 'block';
