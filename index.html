@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>우성고 카드 시스템</title>
+  <title>우성고 카드 시스템 설치</title>
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#007aff">
   
@@ -16,10 +16,28 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
-    html, body { height: 100%; margin: 0; }
-    body { background-color: #e0e5ec; font-family: sans-serif; }
-    iframe { border: 0; width: 100%; height: 100%; }
-    
+    html, body { 
+        height: 100%; 
+        margin: 0; 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background-color: #e0e5ec; 
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    .install-container {
+        color: #3d4a5c;
+    }
+    .install-container h1 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
+    .install-container p {
+        font-size: 1.1rem;
+        color: #5a677b;
+    }
+
     .swal2-popup {
         background: #e0e5ec !important;
         border-radius: 20px !important;
@@ -41,19 +59,6 @@
         box-shadow: inset 4px 4px 8px rgba(163, 177, 198, 0.7), inset -4px -4px 8px rgba(255, 255, 255, 0.9) !important;
         transform: scale(.98);
     }
-    #install-help-reopen {
-        position: fixed; right: 16px; bottom: 16px; z-index: 10005;
-        width: 48px; height: 48px; border-radius: 50%;
-        border: none; cursor: pointer;
-        font-size: 1.5rem; font-weight: 700;
-        background: #e0e5ec;
-        color: #3d4a5c;
-        box-shadow: 6px 6px 12px rgba(163, 177, 198, 0.7), -6px -6px 12px rgba(255, 255, 255, 0.9);
-        transition: all 0.2s ease;
-    }
-    #install-help-reopen:active {
-        box-shadow: inset 4px 4px 8px rgba(163, 177, 198, 0.7), inset -4px -4px 8px rgba(255, 255, 255, 0.9);
-    }
   </style>
 
   <script>
@@ -63,13 +68,14 @@
   </script>
 </head>
 <body>
-  <iframe src="https://script.google.com/macros/s/AKfycbwjEhjg-kro_4Brw-SovaiXg-261HPuBdfh09kilG8L-TcLg6aIfPOr6lMEGAYOIT1fPQ/exec"></iframe>
 
-  <button id="install-help-reopen" title="설치 도움말" hidden>?</button>
+  <div class="install-container">
+    <h1>앱 설치가 필요합니다</h1>
+    <p>아래 안내에 따라 홈 화면에 앱을 추가하여 사용해주세요.</p>
+  </div>
   
   <script>
   document.addEventListener('DOMContentLoaded', () => {
-      const reopenBtn = document.getElementById('install-help-reopen');
       const ua = navigator.userAgent || '';
       const isiOS = /iPhone|iPad|iPod/i.test(ua);
 
@@ -81,8 +87,9 @@
           } catch (e) { return false; }
       };
       
+      // 만약 앱이 이미 설치되어 실행된 상태라면, 이 페이지 대신 앱의 실제 내용(iframe)을 보여줍니다.
       if (isStandaloneNow()) {
-          if (reopenBtn) reopenBtn.hidden = true;
+          document.body.innerHTML = '<iframe src="https://script.google.com/macros/s/AKfycbwjEhjg-kro_4Brw-SovaiXg-261HPuBdfh09kilG8L-TcLg6aIfPOr6lMEGAYOIT1fPQ/exec"></iframe>';
           return; 
       }
 
@@ -121,12 +128,8 @@
       };
 
       const pickKey = () => {
-          // --- iOS 감지 로직 수정 ---
-          if (isiOS) {
-              return 'ios_safari';
-          }
+          if (isiOS) return 'ios_safari';
           
-          // --- 안드로이드 브라우저 감지 ---
           const isSamsung = /SamsungBrowser/i.test(ua);
           const isChromeAn = /Android/i.test(ua) && /Chrome\/\d+/i.test(ua) && !isSamsung;
 
@@ -139,15 +142,12 @@
       const guideConfig = guide[pickKey()] || guide.default;
 
       const openInstallModal = () => {
-          if (reopenBtn) reopenBtn.hidden = true;
           Swal.fire({
               title: guideConfig.title,
               html: `<ol class="help-steps">${guideConfig.steps.map(s => `<li>${s}</li>`).join('')}</ol>`,
               confirmButtonText: '확인',
-              customClass: { popup: 'swal2-popup' },
-              didClose: () => {
-                  if (reopenBtn) reopenBtn.hidden = false;
-              }
+              allowOutsideClick: false, // 바깥을 클릭해도 닫히지 않도록 설정
+              customClass: { popup: 'swal2-popup' }
           });
       };
       
@@ -155,11 +155,9 @@
           e.preventDefault();
       });
 
-      reopenBtn?.addEventListener('click', openInstallModal);
-
-      setTimeout(openInstallModal, 1500);
+      // 페이지가 열리면 바로 안내 모달 실행
+      openInstallModal();
   });
   </script>
 </body>
 </html>
-
