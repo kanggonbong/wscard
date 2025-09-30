@@ -5,59 +5,85 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>우성고 카드 시스템 설치</title>
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#007aff">
+  <meta name="theme-color" content="#e0e5ec">
   
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="우성고 카드">
   <link rel="apple-touch-icon" href="icon-192.png">
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 
   <style>
     html, body { 
         height: 100%; 
         margin: 0; 
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    body { 
         display: flex;
         justify-content: center;
         align-items: center;
-        text-align: center;
-        background-color: #e0e5ec; 
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        background: linear-gradient(-45deg, #e0e5ec, #d1d9e6, #c8d0e7, #b8c6dc);
+        background-size: 400% 400%;
+        animation: gradient-bg 15s ease infinite;
     }
-    .install-container {
-        color: #3d4a5c;
-    }
-    .install-container h1 {
-        font-size: 1.8rem;
-        margin-bottom: 1rem;
-    }
-    .install-container p {
-        font-size: 1.1rem;
-        color: #5a677b;
+    @keyframes gradient-bg {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
     }
 
-    .swal2-popup {
-        background: #e0e5ec !important;
-        border-radius: 20px !important;
-        box-shadow: 9px 9px 16px rgba(163, 177, 198, 0.7), -9px -9px 16px rgba(255, 255, 255, 0.9) !important;
+    .install-wrapper {
+        width: 90%;
+        max-width: 550px;
     }
-    .swal2-title { color: #3d4a5c !important; }
-    .swal2-html-container { color: #5a677b !important; text-align: left !important; }
-    .help-steps { margin: 12px 0 8px 20px; padding: 0; line-height: 1.8; font-size: 1rem; }
-    .help-steps li { margin: 10px 0; }
-    .swal2-confirm {
-        border-radius: 12px !important;
-        font-weight: 700 !important;
-        background: #e0e5ec !important;
-        color: #007aff !important;
-        box-shadow: 4px 4px 8px rgba(163, 177, 198, 0.7), -4px -4px 8px rgba(255, 255, 255, 0.9) !important;
-        transition: all 0.2s ease !important;
+    .guide-card {
+        background: #e0e5ec;
+        border-radius: 30px;
+        padding: 30px 40px;
+        box-shadow: 9px 9px 16px rgba(163, 177, 198, 0.7), 
+                    -9px -9px 16px rgba(255, 255, 255, 0.9);
+        color: #3d4a5c;
+        text-align: left;
     }
-    .swal2-confirm:active {
-        box-shadow: inset 4px 4px 8px rgba(163, 177, 198, 0.7), inset -4px -4px 8px rgba(255, 255, 255, 0.9) !important;
-        transform: scale(.98);
+    .guide-card h1 {
+        font-size: 1.8rem;
+        margin-bottom: 8px;
+        text-align: center;
+    }
+    .guide-card > p {
+        font-size: 1.1rem;
+        color: #5a677b;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .install-guide {
+        display: none; /* 기본적으로 모든 설명을 숨김 */
+    }
+    .install-guide h2 {
+        font-size: 1.3rem;
+        border-top: 1px solid rgba(163, 177, 198, 0.5);
+        padding-top: 20px;
+    }
+    .install-guide ol {
+        margin: 12px 0 8px 20px;
+        padding: 0;
+        line-height: 1.8;
+        font-size: 1rem;
+        color: #5a677b;
+    }
+    .install-guide li {
+        margin: 10px 0;
+    }
+    .install-guide i {
+        margin-right: 10px;
+        color: #007aff;
+    }
+    iframe { 
+        border: 0; 
+        width: 100%; 
+        height: 100%; 
     }
   </style>
 
@@ -69,9 +95,38 @@
 </head>
 <body>
 
-  <div class="install-container">
-    <h1>앱 설치가 필요합니다</h1>
-    <p>아래 안내에 따라 홈 화면에 앱을 추가하여 사용해주세요.</p>
+  <div class="install-wrapper">
+    <div class="guide-card">
+        <h1>📱 앱 설치 안내</h1>
+        <p>최상의 경험을 위해 홈 화면에 앱을 추가하여 사용해주세요.</p>
+
+        <div id="guide-chrome" class="install-guide">
+            <h2><i class="fab fa-chrome"></i>Chrome (크롬)</h2>
+            <ol>
+                <li>화면 오른쪽 위에 있는 <b>점 3개(⋮) 모양의 메뉴</b> 버튼 클릭.</li>
+                <li>열리는 메뉴에서 <b>'홈 화면에 추가'</b> 항목 선택.</li>
+                <li>팝업창에서 <b>'설치'</b> 버튼 클릭.</li>
+            </ol>
+        </div>
+        
+        <div id="guide-samsung" class="install-guide">
+            <h2><i class="fa-solid fa-mobile-screen-button"></i>Samsung Internet (삼성)</h2>
+            <ol>
+                <li>화면 오른쪽 아래에 있는 <b>선 3개(≡) 모양의 메뉴</b> 클릭.</li>
+                <li>열리는 메뉴에서 <b>'추가'</b> 버튼 선택.</li>
+                <li>다음 메뉴에서 <b>'웹앱으로 설치'</b> 선택.</li>
+            </ol>
+        </div>
+
+        <div id="guide-ios" class="install-guide">
+            <h2><i class="fab fa-safari"></i>Safari (아이폰, 아이패드)</h2>
+            <ol>
+                <li>화면 하단 중앙의 <b>공유 버튼(□↑)</b> 클릭.</li>
+                <li><b>'홈 화면에 추가'</b> 항목 선택.</li>
+                <li>오른쪽 위의 <b>'추가'</b> 버튼 클릭.</li>
+            </ol>
+        </div>
+    </div>
   </div>
   
   <script>
@@ -81,82 +136,37 @@
 
       const isStandaloneNow = () => {
           try {
-              const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-              const isIOSStandalone = isiOS && window.navigator.standalone === true;
-              return isStandalone || isIOSStandalone;
-          } catch (e) { return false; }
+              return window.matchMedia('(display-mode: standalone)').matches || (isiOS && window.navigator.standalone === true);
+          } catch (e) { 
+              return false; 
+          }
       };
       
-      // 만약 앱이 이미 설치되어 실행된 상태라면, 이 페이지 대신 앱의 실제 내용(iframe)을 보여줍니다.
+      // 앱이 설치된 상태로 실행되었다면, 설치 안내 페이지 대신 앱(iframe)을 즉시 로드합니다.
       if (isStandaloneNow()) {
           document.body.innerHTML = '<iframe src="https://script.google.com/macros/s/AKfycbwjEhjg-kro_4Brw-SovaiXg-261HPuBdfh09kilG8L-TcLg6aIfPOr6lMEGAYOIT1fPQ/exec"></iframe>';
           return; 
       }
 
-      const guide = {
-          android_chrome: { 
-              title: 'Chrome에서 설치', 
-              steps: [
-                  '오른쪽 위에 있는 <b>점 3개(⋮) 모양의 메뉴</b> 버튼 클릭.',
-                  '열리는 메뉴에서 <b>\'홈 화면에 추가\'</b> 항목 선택.',
-                  '팝업창에서 <b>\'설치\'</b> 버튼 클릭.'
-              ]
-          },
-          android_samsung: { 
-              title: '삼성 인터넷에서 설치', 
-              steps: [
-                  '오른쪽 아래에 있는 <b>선 3개(≡) 모양의 메뉴</b> 클릭.',
-                  '열리는 메뉴에서 <b>\'추가\'</b> 버튼 선택.',
-                  '다음 메뉴에서 <b>\'웹앱으로 설치\'</b> 선택.'
-              ]
-          },
-          ios_safari: { 
-              title: 'iPhone/iPad에서 설치', 
-              steps: [
-                  '화면 하단 중앙의 <b>공유 버튼(□↑)</b> 클릭.',
-                  '<b>\'홈 화면에 추가\'</b> 항목 선택.',
-                  '오른쪽 위의 <b>\'추가\'</b> 버튼 클릭.'
-              ]
-          },
-          default: { 
-              title: '홈 화면에 추가 안내', 
-              steps: [
-                  '브라우저의 <b>메뉴</b> 열기.',
-                  '<b>\'홈 화면에 추가\'</b> 또는 <b>\'앱 설치\'</b> 선택.'
-              ]
-          }
-      };
+      // --- 앱이 설치되지 않은 경우에만 아래 로직 실행 ---
 
       const pickKey = () => {
-          if (isiOS) return 'ios_safari';
+          if (isiOS) return 'ios';
           
           const isSamsung = /SamsungBrowser/i.test(ua);
-          const isChromeAn = /Android/i.test(ua) && /Chrome\/\d+/i.test(ua) && !isSamsung;
-
-          if (isChromeAn) return 'android_chrome';
-          if (isSamsung) return 'android_samsung';
+          if (isSamsung) return 'samsung';
           
-          return 'default';
+          const isChromeAn = /Android/i.test(ua) && /Chrome\/\d+/i.test(ua);
+          if (isChromeAn) return 'chrome';
+          
+          return 'chrome'; // 기본값은 크롬으로 설정
       };
       
-      const guideConfig = guide[pickKey()] || guide.default;
-
-      const openInstallModal = () => {
-          Swal.fire({
-              title: guideConfig.title,
-              html: `<ol class="help-steps">${guideConfig.steps.map(s => `<li>${s}</li>`).join('')}</ol>`,
-              confirmButtonText: '확인',
-              allowOutsideClick: false, // 바깥을 클릭해도 닫히지 않도록 설정
-              customClass: { popup: 'swal2-popup' }
-          });
-      };
-      
-      window.addEventListener('beforeinstallprompt', (e) => {
-          e.preventDefault();
-      });
-
-      // 페이지가 열리면 바로 안내 모달 실행
-      openInstallModal();
+      // 감지된 브라우저에 맞는 안내문만 화면에 보여줍니다.
+      const guideElement = document.getElementById(`guide-${pickKey()}`);
+      if (guideElement) {
+          guideElement.style.display = 'block';
+      }
   });
   </script>
 </body>
