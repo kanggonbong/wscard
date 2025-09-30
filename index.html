@@ -27,8 +27,8 @@
     }
     .swal2-title { color: #3d4a5c !important; }
     .swal2-html-container { color: #5a677b !important; text-align: left !important; }
-    .help-steps { margin: 12px 0 8px 20px; padding: 0; line-height: 1.8; }
-    .help-steps li { margin: 8px 0; }
+    .help-steps { margin: 12px 0 8px 20px; padding: 0; line-height: 1.8; font-size: 1rem; }
+    .help-steps li { margin: 10px 0; }
     .swal2-confirm {
         border-radius: 12px !important;
         font-weight: 700 !important;
@@ -86,11 +86,39 @@
           return; 
       }
 
+      // --- 요청하신 내용으로 수정된 최종 안내 문구 ---
       const guide = {
-          android_chrome: { title: 'Chrome에서 설치', steps: ['오른쪽 위 <b>점 3개(⋮) 메뉴</b>를 누릅니다.', '<b>앱 설치</b> 또는 <b>홈 화면에 추가</b>를 선택합니다.']},
-          android_samsung: { title: '삼성 인터넷에서 설치', steps: ['오른쪽 아래 <b>선 3개(≡) 메뉴</b>를 누릅니다.', '<b>페이지 추가</b>를 선택합니다.', '<b>홈 화면</b>을 눌러 완료합니다.']},
-          ios_safari: { title: 'iPhone/iPad에서 설치', steps: ['하단의 <b>공유 버튼(□↑)</b>을 누릅니다.', '<b>홈 화면에 추가</b>를 선택합니다.', '오른쪽 위 <b>추가</b>를 눌러 완료합니다.']},
-          default: { title: '홈 화면에 추가 안내', steps: ['브라우저의 <b>메뉴</b>를 엽니다.', '<b>홈 화면에 추가</b> 또는 <b>앱 설치</b>를 선택합니다.']}
+          android_chrome: { 
+              title: 'Chrome에서 설치', 
+              steps: [
+                  '화면 오른쪽 위에 있는 <b>점 3개(⋮) 모양의 메뉴</b> 버튼을 누릅니다.',
+                  '열리는 메뉴에서 <b>\'홈 화면에 추가\'</b> 항목을 찾아서 선택합니다.',
+                  '팝업창이 뜨면 \'설치\'와 \'바로가기 만들기\' 중 <b>\'설치\'</b> 버튼을 눌러 완료합니다.'
+              ]
+          },
+          android_samsung: { 
+              title: '삼성 인터넷에서 설치', 
+              steps: [
+                  '화면 오른쪽 아래에 있는 <b>선 3개(≡) 모양의 메뉴</b> 버튼을 누릅니다.',
+                  '열리는 메뉴에서 <b>\'추가\'</b> 버튼을 선택합니다.',
+                  '다음 메뉴에서 <b>\'웹앱으로 설치\'</b>를 선택하면 설치가 완료됩니다.'
+              ]
+          },
+          ios_safari: { 
+              title: 'iPhone/iPad에서 설치', 
+              steps: [
+                  '화면 하단 중앙에 있는 <b>공유 버튼(네모 안에 위쪽 화살표가 있는 아이콘: □↑)</b>을 누릅니다.',
+                  '나타나는 여러 옵션 중에서 아래로 스크롤하여 <b>\'홈 화면에 추가\'</b>를 찾아서 선택합니다.',
+                  '오른쪽 위에 있는 <b>\'추가\'</b> 버튼을 눌러 완료합니다.'
+              ]
+          },
+          default: { 
+              title: '홈 화면에 추가 안내', 
+              steps: [
+                  '브라우저의 <b>메뉴</b>를 엽니다.',
+                  '<b>홈 화면에 추가</b> 또는 <b>앱 설치</b>를 선택합니다.'
+              ]
+          }
       };
 
       const pickKey = () => {
@@ -119,7 +147,7 @@
           });
       };
       
-      // 크롬 자동 배너 비활성화
+      // 크롬 자동 배너는 사용하지 않도록 설정
       window.addEventListener('beforeinstallprompt', (e) => {
           e.preventDefault();
       });
@@ -127,8 +155,8 @@
       // 이벤트 연결
       reopenBtn?.addEventListener('click', openInstallModal);
 
-      // 약간의 지연 후 모달 최초 실행
-      setTimeout(openInstallModal, 1500);
+      // 모달 최초 실행 (설치하지 않은 모든 브라우저에서)
+      setTimeout(openInstallál, 1500);
   });
   </script>
 </body>
