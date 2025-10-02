@@ -5,15 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>우성고 카드 시스템 설치</title>
 
-  <!-- 상대경로로 manifest 연결 -->
-  <link rel="manifest" href="./manifest.json">
+  <link rel="manifest" href="/wscard/manifest.json">
   <meta name="theme-color" content="#e0e5ec">
 
-  <!-- iOS (웹앱 모드용) -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="우성고 카드">
-  <link rel="apple-touch-icon" href="./icon-192.png">
+  <link rel="apple-touch-icon" href="/wscard/icon-192.png">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -33,7 +31,6 @@
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-
     .install-wrapper { width: 90%; max-width: 550px; }
     .guide-card {
       background: #e0e5ec; border-radius: 30px; padding: 30px 40px;
@@ -51,9 +48,11 @@
   </style>
 
   <script>
-    // sw.js가 index.html과 같은 폴더에 있고, 범위를 현재 폴더(./)로 고정
+    // 서비스 워커 등록 경로와 범위를 절대 경로로 고정
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js', { scope: './' }).catch(console.error);
+      navigator.serviceWorker.register('/wscard/sw.js', { scope: '/wscard/' })
+        .then(reg => console.log('Service Worker registered successfully:', reg.scope))
+        .catch(err => console.error('Service Worker registration failed:', err));
     }
   </script>
 </head>
@@ -61,65 +60,63 @@
 
   <div class="install-wrapper">
     <div class="guide-card">
-      <h1>📱 앱 설치 안내</h1>
-      <p>최상의 경험을 위해 홈 화면에 앱을 추가하여 사용해주세요.</p>
+        <h1>📱 앱 설치 안내</h1>
+        <p>최상의 경험을 위해 홈 화면에 앱을 추가하여 사용해주세요.</p>
 
-      <div id="guide-chrome" class="install-guide">
-        <h2><i class="fab fa-chrome"></i>Chrome (크롬)</h2>
-        <ol>
-          <li>오른쪽 위 <b>점 3개(⋮)모양 메뉴</b> 버튼 클릭.</li>
-          <li>메뉴에서 <b>'홈 화면에 추가'</b> 항목 선택.</li>
-          <li>팝업창에서 <b>'설치'</b> 버튼 클릭.</li>
-        </ol>
-      </div>
-      
-      <div id="guide-samsung" class="install-guide">
-        <h2><i class="fa-solid fa-mobile-screen-button"></i>Samsung Internet (삼성)</h2>
-        <ol>
-          <li>오른쪽 아래 <b>선 3개(≡)모양 메뉴</b> 클릭.</li>
-          <li>메뉴에서 <b>'추가'</b> 버튼 선택.</li>
-          <li>메뉴에서 <b>'웹앱으로 설치'</b> 선택.</li>
-        </ol>
-      </div>
+        <div id="guide-chrome" class="install-guide">
+            <h2><i class="fab fa-chrome"></i>Chrome (크롬)</h2>
+            <ol>
+                <li>오른쪽 위 <b>점 3개(⋮)모양 메뉴</b> 버튼 클릭.</li>
+                <li>메뉴에서 <b>'앱 설치'</b> 또는 <b>'홈 화면에 추가'</b> 항목 선택.</li>
+                <li>팝업창에서 <b>'설치'</b> 버튼 클릭.</li>
+            </ol>
+        </div>
+        
+        <div id="guide-samsung" class="install-guide">
+            <h2><i class="fa-solid fa-mobile-screen-button"></i>Samsung Internet (삼성)</h2>
+            <ol>
+                <li>오른쪽 아래 <b>선 3개(≡)모양 메뉴</b> 클릭.</li>
+                <li>메뉴에서 <b>'페이지 추가'</b> 버튼 선택.</li>
+                <li>나타나는 메뉴에서 <b>'홈 화면'</b>을 선택하여 설치합니다.<br><small>(PWA 조건 만족 시 '웹앱으로 설치'가 뜰 수 있습니다.)</small></li>
+            </ol>
+        </div>
 
-      <div id="guide-ios" class="install-guide">
-        <h2><i class="fab fa-apple"></i>iPhone / iPad (아이폰)</h2>
-        <ol>
-          <li>상단/하단의 <b>공유 버튼(⬆️)</b> 또는 <b>메뉴(⋯)</b> 클릭.</li>
-          <li><b>'홈 화면에 추가'</b> 선택.<br><small>(없으면 '더보기' 또는 '편집' 확인)</small></li>
-          <li>팝업에서 <b>'추가'</b> 버튼.</li>
-        </ol>
-      </div>
+        <div id="guide-ios" class="install-guide">
+            <h2><i class="fab fa-apple"></i>iPhone / iPad (아이폰)</h2>
+            <ol>
+                <li>하단 중앙 <b>공유 버튼(⬆️)</b> 클릭.</li>
+                <li><b>'홈 화면에 추가'</b> 항목 선택.</li>
+                <li>팝업창에서 <b>'추가'</b> 버튼 클릭.</li>
+            </ol>
+        </div>
     </div>
   </div>
   
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', () => {
       const ua = navigator.userAgent || '';
       const isiOS = /iPhone|iPad|iPod/i.test(ua);
 
       const isStandaloneNow = () => {
-        try {
-          return window.matchMedia('(display-mode: standalone)').matches || (isiOS && window.navigator.standalone === true);
-        } catch (e) { return false; }
+          return window.matchMedia('(display-mode: standalone)').matches || (window.navigator.standalone === true);
       };
       
       if (isStandaloneNow()) {
-        // 설치된 앱 상태에서만 본 서비스로 진입
-        document.body.innerHTML = '<iframe src="https://script.google.com/macros/s/AKfycbwjEhjg-kro_4Brw-SovaiXg-261HPuBdfh09kilG8L-TcLg6aIfPOr6lMEGAYOIT1fPQ/exec"></iframe>';
-        return;
+          document.body.innerHTML = '<iframe src="https://script.google.com/macros/s/AKfycbwjEhjg-kro_4Brw-SovaiXg-261HPuBdfh09kilG8L-TcLg6aIfPOr6lMEGAYOIT1fPQ/exec"></iframe>';
+          return; 
       }
 
-      const pickKey = () => {
-        if (isiOS) return 'ios';
-        const isSamsung = /SamsungBrowser/i.test(ua);
-        if (isSamsung) return 'samsung';
-        return 'chrome';
+      const pickGuide = () => {
+          if (isiOS) return 'ios';
+          if (/SamsungBrowser/i.test(ua)) return 'samsung';
+          return 'chrome';
       };
       
-      const guideElement = document.getElementById(`guide-${pickKey()}`);
-      if (guideElement) guideElement.style.display = 'block';
-    });
+      const guideElement = document.getElementById(`guide-${pickGuide()}`);
+      if (guideElement) {
+          guideElement.style.display = 'block';
+      }
+  });
   </script>
 </body>
 </html>
