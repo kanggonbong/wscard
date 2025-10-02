@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PWA 진단 페이지</title>
+  <link rel="manifest" href="/wscard/manifest.json">
+  <style>
+    body { font-family: sans-serif; padding: 2em; line-height: 1.6; }
+    h1 { color: #007aff; }
+  </style>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/wscard/sw.js', { scope: '/wscard/' })
+        .then(reg => console.log('진단 페이지: Service Worker 등록 성공', reg.scope))
+        .catch(err => console.error('진단 페이지: Service Worker 등록 실패', err));
+    }
+  </script>
+</head>
+<body>
+  <h1>PWA 설치 조건 진단</h1>
+  <p>이 페이지에서 삼성 인터넷 브라우저의 '웹앱으로 설치' 메뉴가 나타나는지 확인해주세요.</p>
+  <p>만약 이 페이지에서 설치 메뉴가 보인다면, manifest.json과 sw.js 파일에는 문제가 없으며 iframe 구조가 원인일 가능성이 높습니다.</p>
+</body>
+</html>
