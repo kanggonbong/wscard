@@ -4,13 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>앱 설치 안내</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <style>
         body {
             display: flex; justify-content: center; align-items: center;
             height: 100vh; margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background-color: #e0e5ec; text-align: center; padding: 1em;
         }
-        .container { padding: 2em; max-width: 400px; }
+        .container { 
+            padding: 2em; max-width: 400px;
+            background: #e0e5ec; border-radius: 20px;
+            box-shadow: 9px 9px 16px rgba(163, 177, 198, 0.7), -9px -9px 16px rgba(255, 255, 255, 0.9);
+        }
         h1 { color: #3d4a5c; }
         .button {
             display: inline-block;
@@ -25,17 +30,43 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
         p { color: #5a677b; line-height: 1.6; }
-        .note { margin-top: 30px; font-size: 0.9em; }
+        .guide { display: none; }
+        .guide ol { list-style-type: none; padding: 0; margin-top: 20px; }
+        .guide li { text-align: left; margin-bottom: 15px; font-size: 1.1em; }
+        .guide i { color: #007aff; margin-right: 10px; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>우성고 카드 시스템</h1>
-        <p>원활한 설치와 사용을 위해 크롬 브라우저에서 진행해주세요.</p>
-        <a class="button" href="intent://kanggonbong.github.io/wscard/#Intent;scheme=https;package=com.android.chrome;end">
-            크롬으로 계속하기
-        </a>
-        <p class="note">아이폰 사용자는 Safari로 QR 코드를 다시 스캔해주세요.</p>
+
+        <div id="android-guide" class="guide">
+            <p>원활한 설치와 사용을 위해 크롬 브라우저에서 진행해주세요.</p>
+            <a class="button" href="intent://kanggonbong.github.io/wscard/#Intent;scheme=https;package=com.android.chrome;end">
+                <i class="fab fa-chrome"></i> 크롬으로 계속하기
+            </a>
+        </div>
+
+        <div id="ios-guide" class="guide">
+            <p>앱을 홈 화면에 추가하여 사용하세요.</p>
+            <ol>
+                <li><i class="fa-solid fa-arrow-up-from-bracket"></i> 하단 공유 버튼을 누르세요.</li>
+                <li><i class="fa-solid fa-plus-square"></i> '홈 화면에 추가'를 선택하세요.</li>
+                <li><i class="fa-solid fa-plus"></i> '추가' 버튼을 누르면 완료됩니다.</li>
+            </ol>
+        </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const isiOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+            
+            if (isiOS) {
+                document.getElementById('ios-guide').style.display = 'block';
+            } else {
+                document.getElementById('android-guide').style.display = 'block';
+            }
+        });
+    </script>
 </body>
 </html>
