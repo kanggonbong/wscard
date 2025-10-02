@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>우성고 카드 시스템 설치</title>
 
-  <link rel="manifest" href="/wscard/manifest.json">
+  <link rel="manifest" href="/wscard2/manifest.json">
   <meta name="theme-color" content="#e0e5ec">
 
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="우성고 카드">
-  <link rel="apple-touch-icon" href="/wscard/icon-192.png">
+  <link rel="apple-touch-icon" href="/wscard2/icon-192.png">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -48,9 +48,9 @@
   </style>
 
   <script>
-    // 서비스 워커 등록 경로와 범위를 절대 경로로 고정
+    // 서비스 워커 등록 경로와 범위를 /wscard2/ 로 고정
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/wscard/sw.js', { scope: '/wscard/' })
+      navigator.serviceWorker.register('/wscard2/sw.js', { scope: '/wscard2/' })
         .then(reg => console.log('Service Worker registered successfully:', reg.scope))
         .catch(err => console.error('Service Worker registration failed:', err));
     }
@@ -77,7 +77,7 @@
             <ol>
                 <li>오른쪽 아래 <b>선 3개(≡)모양 메뉴</b> 클릭.</li>
                 <li>메뉴에서 <b>'페이지 추가'</b> 버튼 선택.</li>
-                <li>나타나는 메뉴에서 <b>'홈 화면'</b>을 선택하여 설치합니다.<br><small>(PWA 조건 만족 시 '웹앱으로 설치'가 뜰 수 있습니다.)</small></li>
+                <li><b>'웹앱으로 설치'</b> 또는 <b>'홈 화면'</b>을 선택하여 설치합니다.</li>
             </ol>
         </div>
 
