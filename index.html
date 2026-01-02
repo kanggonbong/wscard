@@ -3,23 +3,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-  <title>우성고 카드 설치</title>
+  <title>우성고 카드</title>
 
   <link rel="manifest" href="./manifest.json" />
   <meta name="theme-color" content="#e0e5ec" />
-
+  
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="우성고 카드" />
   <link rel="apple-touch-icon" href="./icon-192.png" />
 
   <style>
-    /* 1. 기본 초기화 */
-    html, body {
-      height: 100%; margin: 0; padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    }
-
+    /* 1. 기본 설정 */
+    html, body { height: 100%; margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body {
       display: flex; justify-content: center; align-items: center;
       background: linear-gradient(-45deg, #e0e5ec, #d1d9e6, #c8d0e7, #b8c6dc);
@@ -33,7 +29,6 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* 2. 카드 디자인 */
     .wrap { width: min(560px, 90vw); }
     .card {
       background: #e0e5ec;
@@ -51,27 +46,18 @@
       border-radius: 999px; background: rgba(0,0,0,0.06); 
       font-size: 0.9rem; color: #5a677b; margin-bottom: 12px; 
     }
-    
-    .warn { 
-      margin-top: 10px; font-weight: 800; color: #d63031; font-size: 0.95rem; line-height: 1.4;
-    }
-    
-    ol { margin: 16px 0 0 0; padding-left: 22px; text-align: left; line-height: 1.8; color: #5a677b; display: inline-block; }
-    li { margin: 6px 0; }
 
-    .btns { display: flex; justify-content: center; width: 100%; margin-top: 24px; }
-
-    /* 3. ✅✅✅ 버튼 강제 정렬 스타일 (핵심) ✅✅✅ */
-    /* id로 강력하게 지정하여 모든 브라우저 기본 스타일을 덮어씁니다 */
+    /* 2. ✅✅✅ 버튼 및 링크 강제 정렬 스타일 (여기가 핵심) ✅✅✅ */
+    /* 설치버튼(button)과 크롬이동버튼(a) 모두 적용 */
     #installBtn, 
-    a.custom-btn {
-      /* [중요] 안드로이드/iOS 기본 버튼 모양 제거 */
+    #chromeBtn {
+      /* 기본 스타일 초기화 */
       -webkit-appearance: none !important;
       appearance: none !important;
       border: 0 !important;
-      text-decoration: none !important;
+      text-decoration: none !important; /* 링크 밑줄 제거 */
 
-      /* [중요] 무조건 정중앙 정렬 */
+      /* 🔥 무조건 중앙 정렬 (Flexbox) 🔥 */
       display: flex !important;
       justify-content: center !important;
       align-items: center !important;
@@ -88,7 +74,7 @@
       /* 크기 설정 */
       width: 100% !important;
       max-width: 260px !important;
-      margin: 0 auto !important;
+      margin: 20px auto 0 auto !important; /* 위쪽 여백 */
       padding: 16px 20px !important;
       box-sizing: border-box !important;
       
@@ -98,28 +84,21 @@
       cursor: pointer !important;
     }
 
-    #installBtn:active, a.custom-btn:active {
+    #installBtn:active, #chromeBtn:active {
       transform: translateY(2px);
       box-shadow: inset 3px 3px 6px rgba(0,0,0,0.2) !important;
     }
 
-    /* span으로 텍스트 한번 더 감싸서 쏠림 완벽 방지 */
-    #installBtn span, a.custom-btn span {
-      display: block; width: 100%; text-align: center;
-    }
-
     .small { margin-top: 22px; font-size: 0.85rem; color: #6b7890; line-height: 1.4; word-break: keep-all; }
     
-    /* iframe 및 유틸리티 */
     iframe { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; display: none; background: #fff; z-index: 9999; }
     .hide { display: none !important; }
   </style>
 
   <script>
-    // ✅ 앱스 스크립트 웹앱 주소 (최신 버전)
+    // ✅ 앱스 스크립트 주소 (여기로 이동시킴)
     const APP_URL = "https://script.google.com/macros/s/AKfycbzLyWl4cHIEmwPDhjMGADoWN1MHa2OLhkVtcJldWDlHzRgyz-Yb9CGNleaiwmrV1-ZvBg/exec";
 
-    // 서비스워커 등록
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("./sw.js", { scope: "./" }).catch(console.error);
     }
@@ -133,25 +112,23 @@
 <div id="installUI" class="wrap">
   <div class="card">
     <h1>📱 우성고 카드</h1>
-    <p class="desc" id="topMsg">원활한 사용을 위해<br>앱을 설치해주세요.</p>
+    
+    <p class="desc" id="topMsg">환경을 확인하고 있습니다...</p>
 
     <div>
-      <span class="badge" id="envBadge">환경 확인 중…</span>
-      <div id="warnMsg" class="warn hide">
-        ⚠️ 카카오톡/네이버에서는<br>설치가 불가능합니다.
-      </div>
+      <span class="badge" id="envBadge">확인 중…</span>
     </div>
 
-    <ol id="steps"></ol>
+    <button id="installBtn" class="hide" type="button">
+      앱 설치하기
+    </button>
 
-    <div class="btns">
-      <button id="installBtn" class="hide" type="button">
-        <span>앱 설치하기</span>
-      </button>
-    </div>
+    <a id="chromeBtn" class="hide" href="#" target="_blank">
+      크롬으로 계속하기
+    </a>
 
-    <div class="small">
-      설치 후 홈 화면에 추가된<br><b>[우성고 카드]</b> 아이콘으로 실행하세요.
+    <div class="small" id="footNote">
+      설치 후 홈 화면에 추가된 아이콘으로 실행하세요.
     </div>
   </div>
 </div>
@@ -159,54 +136,62 @@
 <script>
   const $ = id => document.getElementById(id);
   function showApp() { $("installUI").classList.add("hide"); const f = $("appFrame"); f.src = APP_URL; f.style.display = "block"; }
-  function setSteps(arr) { const ol = $("steps"); if (arr.length === 0) { ol.innerHTML = ""; ol.style.display = "none"; } else { ol.style.display = "inline-block"; ol.innerHTML = arr.map(v => `<li>${v}</li>`).join(""); } }
 
   document.addEventListener("DOMContentLoaded", () => {
-    // 1. 이미 앱(Standalone) 모드인지 확인
+    // 1. 앱(Standalone) 모드면 바로 실행
     const isStandalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
     if (isStandalone) { showApp(); return; }
 
     // 2. 환경 감지
     const ua = navigator.userAgent.toLowerCase();
     const isiOS = /iphone|ipad|ipod/.test(ua);
+    const isAndroid = /android/.test(ua);
+    
+    // 인앱 브라우저 체크 (카톡, 네이버 등)
     const isInApp = ua.includes("kakaotalk") || (ua.includes("naver") && ua.includes("inapp")) || ua.includes("instagram") || ua.includes("fbav") || ua.includes("line");
 
-    $("envBadge").textContent = isInApp ? "인앱 브라우저" : isiOS ? "iOS (아이폰)" : "Android (안드로이드)";
+    $("envBadge").textContent = isInApp ? "인앱 브라우저" : isiOS ? "iOS" : "Android";
 
-    // [CASE A] 인앱 브라우저 (카톡 등)
+    // ---------------------------------------------------------
+    // [상황 1] 카카오톡/네이버 등 인앱 브라우저일 때
+    // ---------------------------------------------------------
     if (isInApp) {
-      $("warnMsg").classList.remove("hide");
-      $("topMsg").innerHTML = "지금은 <b>임시 브라우저</b>입니다.<br>설치를 위해 브라우저를 바꿔주세요.";
-      setSteps([
-        "화면의 <b>[점 3개]</b> 또는 <b>[공유]</b> 클릭",
-        "<b>[다른 브라우저(Chrome/Safari)]</b> 선택",
-        "새로 열린 창에서 설치 진행"
-      ]);
+      if (isAndroid) {
+        // 안드로이드면: "크롬으로 계속하기" 버튼 표시
+        $("topMsg").innerHTML = "원활한 설치와 사용을 위해<br>크롬 브라우저에서 진행해주세요.";
+        
+        // intent 주소 생성 (강제로 크롬을 띄우는 마법의 주소)
+        // intent://주소#Intent;scheme=https;package=com.android.chrome;end
+        const intentUrl = "intent://" + APP_URL.replace(/^https?:\/\//, "") + "#Intent;scheme=https;package=com.android.chrome;end";
+        
+        const btn = $("chromeBtn");
+        btn.href = intentUrl; // 버튼에 주소 심기
+        btn.classList.remove("hide"); // 버튼 보여주기
+      } else {
+        // 아이폰이면: 그냥 사파리로 열라고 안내 (버튼으로 강제 이동 불가)
+        $("topMsg").innerHTML = "설치를 위해 <b>Safari</b>로 열어주세요.<br>(메뉴 → 다른 브라우저로 열기)";
+      }
       return; 
     }
 
-    // [CASE B] iOS (아이폰)
+    // ---------------------------------------------------------
+    // [상황 2] iOS (아이폰 사파리 등)
+    // ---------------------------------------------------------
     if (isiOS) {
-      $("topMsg").innerHTML = "아이폰은 <b>홈 화면에 추가</b>하여<br>앱처럼 사용할 수 있습니다.";
-      setSteps([
-        "하단(또는 상단) <b>공유 버튼(<i class='fa-solid fa-arrow-up-from-bracket'></i>)</b> 클릭",
-        "메뉴에서 <b>[홈 화면에 추가]</b> 선택",
-        "우측 상단 <b>[추가]</b> 버튼 클릭"
-      ]);
+      $("topMsg").innerHTML = "<b>공유 버튼 <i class='fa-solid fa-arrow-up-from-bracket'></i></b>을 누르고<br><b>[홈 화면에 추가]</b>를 선택하세요.";
       return;
     }
 
-    // [CASE C] 안드로이드 (크롬/삼성 등)
-    // 설명 문구 숨기고 버튼만 대기
+    // ---------------------------------------------------------
+    // [상황 3] 안드로이드 (크롬/삼성인터넷 등 정상 브라우저)
+    // ---------------------------------------------------------
     $("topMsg").innerHTML = "아래 버튼을 눌러 설치하세요.";
-    setSteps([]);
-
+    
     let deferredPrompt = null;
     window.addEventListener("beforeinstallprompt", e => {
       e.preventDefault();
       deferredPrompt = e;
-      // 설치 버튼 표시
-      $("installBtn").classList.remove("hide");
+      $("installBtn").classList.remove("hide"); // 설치 버튼 등장
     });
 
     $("installBtn").addEventListener("click", async () => {
