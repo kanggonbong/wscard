@@ -1,69 +1,232 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>우성고 카드 시스템 설치</title>
-  <link rel="manifest" href="./manifest.json">
-  <meta name="theme-color" content="#e0e5ec">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="우성고 카드">
-  <link rel="apple-touch-icon" href="./icon-192.png">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>우성고 카드 설치</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="./manifest.json" />
+  <meta name="theme-color" content="#e0e5ec" />
+
+  <!-- iOS PWA -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="우성고 카드" />
+  <link rel="apple-touch-icon" href="./icon-192.png" />
+
   <style>
-    html, body { height: 100%; margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
-    body { display: flex; justify-content: center; align-items: center; background: linear-gradient(-45deg, #e0e5ec, #d1d9e6, #c8d0e7, #b8c6dc); background-size: 400% 400%; animation: gradient-bg 15s ease infinite; }
-    @keyframes gradient-bg { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-    .install-wrapper { width: 90%; max-width: 550px; }
-    .guide-card { background: #e0e5ec; border-radius: 30px; padding: 30px 40px; box-shadow: 9px 9px 16px rgba(163, 177, 198, 0.7), -9px -9px 16px rgba(255, 255, 255, 0.9); color: #3d4a5c; text-align: left; }
-    .guide-card h1 { font-size: 1.8rem; margin-bottom: 8px; text-align: center; }
-    .guide-card > p { font-size: 1.1rem; color: #5a677b; text-align: center; margin-bottom: 30px; }
-    .install-guide { display: none; }
-    .install-guide h2 { font-size: 1.3rem; border-top: 1px solid rgba(163, 177, 198, 0.5); padding-top: 20px; }
-    .install-guide ol { margin: 12px 0 8px 20px; padding: 0; line-height: 1.8; font-size: 1rem; color: #5a677b; }
-    .install-guide li { margin: 10px 0; }
-    .install-guide i.fa-solid, .install-guide i.fab { margin-right: 10px; color: #007aff; }
-    iframe { border: 0; width: 100%; height: 100%; position: fixed; top: 0; left: 0; }
+    html, body { height: 100%; margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
+    body {
+      display: flex; justify-content: center; align-items: center;
+      background: linear-gradient(-45deg, #e0e5ec, #d1d9e6, #c8d0e7, #b8c6dc);
+      background-size: 400% 400%;
+      animation: gradient-bg 15s ease infinite;
+      color: #3d4a5c;
+    }
+    @keyframes gradient-bg {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .wrap { width: min(560px, 92vw); }
+    .card {
+      background: #e0e5ec;
+      border-radius: 26px;
+      padding: 26px;
+      box-shadow: 9px 9px 16px rgba(163, 177, 198, 0.7), -9px -9px 16px rgba(255, 255, 255, 0.9);
+    }
+    h1 { margin: 0 0 8px; font-size: 1.6rem; text-align: center; }
+    .desc { margin: 0 0 14px; color: #5a677b; text-align: center; line-height: 1.5; }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.06);
+      font-size: 0.9rem;
+    }
+    .center { text-align: center; }
+
+    .warn {
+      margin-top: 10px;
+      color: #d63031;
+      font-weight: 800;
+    }
+
+    ol { margin: 12px 0 0 18px; padding: 0; color: #5a677b; line-height: 1.8; }
+    li { margin: 8px 0; }
+
+    .btns { display: flex; justify-content: center; margin-top: 16px; }
+    button {
+      border: 0;
+      border-radius: 14px;
+      padding: 12px 16px;
+      cursor: pointer;
+      background: #ffffff80;
+      color: #2f3a4a;
+      font-weight: 800;
+      box-shadow: 6px 6px 12px rgba(163, 177, 198, 0.45), -6px -6px 12px rgba(255, 255, 255, 0.75);
+    }
+    button:active { transform: translateY(1px); }
+
+    iframe {
+      border: 0;
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      inset: 0;
+      display: none;
+      -webkit-overflow-scrolling: touch;
+      background: #fff;
+    }
+
+    .hide { display: none !important; }
+    .small { font-size: 0.9rem; color: #6b7890; margin-top: 12px; line-height: 1.5; text-align: center; }
   </style>
+
   <script>
-    if ('serviceWorker' in navigator) { navigator.serviceWorker.register('./sw.js', { scope: './' }).catch(console.error); }
+    // ✅ GAS 웹앱 주소
+    const APP_URL = "https://script.google.com/macros/s/AKfycbzLyWl4cHIEmwPDhjMGADoWN1MHa2OLhkVtcJldWDlHzRgyz-Yb9CGNleaiwmrV1-ZvBg/exec";
+
+    // 서비스워커 등록
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("./sw.js", { scope: "./" }).catch(console.error);
+    }
   </script>
 </head>
+
 <body>
-  <iframe id="app-frame" style="display: none;" src="https://script.google.com/macros/s/AKfycbzLyWl4cHIEmwPDhjMGADoWN1MHa2OLhkVtcJldWDlHzRgyz-Yb9CGNleaiwmrV1-ZvBg/exec"></iframe>
-  <div id="install-container" class="install-wrapper">
-    <div class="guide-card">
-        <h1>📱 앱 설치 안내</h1>
-        <p>최상의 경험을 위해 홈 화면에 앱을 추가하여 사용해주세요.</p>
-        <div id="guide-chrome" class="install-guide">
-            <h2><i class="fab fa-chrome"></i>Chrome (크롬)</h2>
-            <ol><li>오른쪽 위 <b>(⋮)모양 메뉴</b> 클릭.</li><li>메뉴에서 <b>'홈 화면에 추가'</b> 항목 선택.</li><li>메뉴에서 <b>'설치'</b> 버튼 클릭.</li></ol>
-        </div>
-        <div id="guide-samsung" class="install-guide">
-            <h2><i class="fa-solid fa-mobile-screen-button"></i>Samsung Internet</h2>
-            <ol><li>오른쪽 아래 <b>(≡)모양 메뉴</b> 클릭.</li><li>메뉴에서 <b>'추가'</b> 항목 선택.</li><li>메뉴에서 <b>'웹앱으로 설치'</b> 선택.</li></ol>
-        </div>
-        <div id="guide-ios" class="install-guide">
-            <h2><i class="fab fa-apple"></i>iPhone / iPad</h2>
-            <ol><li>상단or하단 <b>공유 버튼(⬆️)</b> 클릭.</li><li>메뉴에서 <b>'더보기'</b> 항목 선택.</li><li><b>'홈 화면에 추가'</b> 항목 선택.</li><li><b>'추가'</b> 버튼 클릭.</li></ol>
-        </div>
+  <iframe
+    id="appFrame"
+    title="우성고 카드"
+    allow="camera; microphone; geolocation; autoplay; payment; fullscreen"
+  ></iframe>
+
+  <div id="installUI" class="wrap">
+    <div class="card">
+      <h1>📱 우성고 카드 설치 안내</h1>
+      <p class="desc" id="topMsg">홈 화면에 추가해서 앱처럼 사용해주세요.</p>
+
+      <div class="center">
+        <span class="badge" id="envBadge">환경 확인 중…</span>
+        <div id="warnMsg" class="warn hide">인앱 브라우저에서는 설치가 안 될 수 있어요.</div>
+      </div>
+
+      <ol id="steps"></ol>
+
+      <!-- 안드로이드에서 beforeinstallprompt 뜰 때만 나타나는 버튼 -->
+      <div class="btns">
+        <button id="installBtn" class="hide" type="button">설치하기</button>
+      </div>
+
+      <div class="small">
+        설치가 완료되면 홈 화면의 아이콘으로 실행했을 때 자동으로 앱 화면이 열립니다.
+      </div>
     </div>
   </div>
+
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    const $ = (id) => document.getElementById(id);
+
+    function setSteps(items) {
+      const ol = $("steps");
+      ol.innerHTML = "";
+      items.forEach((t) => {
+        const li = document.createElement("li");
+        li.innerHTML = t;
+        ol.appendChild(li);
+      });
+    }
+
+    function showApp() {
+      $("installUI").classList.add("hide");
+      const f = $("appFrame");
+      f.src = APP_URL;
+      f.style.display = "block";
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // 1) 설치(standalone) 실행이면 앱 표시
+      const isStandalone =
+        window.matchMedia("(display-mode: standalone)").matches ||
+        window.navigator.standalone === true;
+
       if (isStandalone) {
-        document.getElementById('install-container').style.display = 'none';
-        document.getElementById('app-frame').style.display = 'block';
-      } else {
-        const ua = navigator.userAgent || '';
-        const isiOS = /iPhone|iPad|iPod/i.test(ua);
-        let guideId = 'guide-chrome';
-        if (isiOS) { guideId = 'guide-ios'; } 
-        else if (/SamsungBrowser/i.test(ua)) { guideId = 'guide-samsung'; }
-        document.getElementById(guideId).style.display = 'block';
+        showApp();
+        return;
       }
+
+      // 2) 환경 감지
+      const ua = (navigator.userAgent || "").toLowerCase();
+      const isiOS = /iphone|ipad|ipod/.test(ua);
+      const isAndroid = /android/.test(ua);
+
+      const isInApp =
+        ua.includes("kakaotalk") ||
+        ua.includes("kakao") ||
+        (ua.includes("naver") && ua.includes("inapp")) ||
+        ua.includes("daumapps") ||
+        ua.includes("instagram") ||
+        ua.includes("fbav") ||
+        ua.includes("fban") ||
+        ua.includes("snapchat") ||
+        ua.includes("line");
+
+      let badge = "일반 브라우저";
+      if (isInApp) badge = "인앱 브라우저(카톡/네이버 등)";
+      else if (isiOS) badge = "iPhone / iPad";
+      else if (isAndroid) badge = "Android";
+      $("envBadge").textContent = badge;
+
+      // 3) 안내
+      if (isInApp) {
+        $("warnMsg").classList.remove("hide");
+        $("topMsg").innerHTML =
+          "지금은 <b style='color:#d63031'>앱 안에서 열린 화면</b>이라 설치가 어려울 수 있어요.<br/>먼저 <b>외부 브라우저</b>로 열어주세요.";
+
+        setSteps([
+          "상단/하단의 <b>공유</b> 또는 <b>⋯(점 3개)</b> 메뉴를 누르세요.",
+          "<b>“다른 브라우저로 열기 / 기본 브라우저로 열기”</b>를 선택하세요.",
+          "외부 브라우저로 열린 뒤, 아래 설치 방법대로 <b>홈 화면에 추가</b>를 진행하세요."
+        ]);
+      } else if (isiOS) {
+        $("topMsg").innerHTML =
+          "iOS는 보통 <b>공유 메뉴 → 홈 화면에 추가</b>로 설치합니다.";
+
+        setSteps([
+          "<b>공유 버튼(⬆︎)</b>을 누르세요.",
+          "목록에서 <b>“홈 화면에 추가”</b>를 찾아 누르세요.",
+          "우측 상단 <b>“추가”</b>를 누르세요.",
+          "※ 만약 <b>“홈 화면에 추가”</b>가 안 보이면 <b>Safari로 열어서</b> 다시 시도하세요."
+        ]);
+      } else {
+        $("topMsg").innerHTML =
+          "안드로이드는 <b>앱 설치</b> 또는 <b>홈 화면에 추가</b>로 설치합니다.";
+
+        setSteps([
+          "우측 상단 <b>⋮(점 3개)</b> 메뉴를 누르세요.",
+          "<b>“앱 설치”</b> 또는 <b>“홈 화면에 추가”</b>를 선택하세요.",
+          "<b>설치</b>를 눌러 완료하세요."
+        ]);
+      }
+
+      // 4) 안드로이드(지원 브라우저)에서만 '설치하기' 버튼 활성화
+      let deferredPrompt = null;
+      window.addEventListener("beforeinstallprompt", (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        $("installBtn").classList.remove("hide");
+      });
+
+      $("installBtn").addEventListener("click", async () => {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        try { await deferredPrompt.userChoice; } catch (e) {}
+        deferredPrompt = null;
+        $("installBtn").classList.add("hide");
+      });
     });
   </script>
 </body>
