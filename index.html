@@ -5,23 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>우성고 카드 설치</title>
 
-  <!-- PWA -->
   <link rel="manifest" href="./manifest.json" />
   <meta name="theme-color" content="#e0e5ec" />
 
-  <!-- iOS PWA -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="우성고 카드" />
   <link rel="apple-touch-icon" href="./icon-192.png" />
 
   <style>
+    /* 기본 초기화 */
     html, body {
       height: 100%;
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
 
+    /* 배경 애니메이션 (그라데이션) */
     body {
       display: flex;
       justify-content: center;
@@ -31,91 +31,110 @@
       animation: bg 15s ease infinite;
       color: #3d4a5c;
     }
-
     @keyframes bg {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
 
+    /* 카드 디자인 (뉴모피즘) */
     .wrap { width: min(560px, 92vw); }
-
     .card {
       background: #e0e5ec;
       border-radius: 26px;
-      padding: 26px;
-      box-shadow:
-        9px 9px 16px rgba(163,177,198,.7),
-       -9px -9px 16px rgba(255,255,255,.9);
-    }
-
-    h1 {
-      margin: 0 0 8px;
+      padding: 30px 26px;
+      box-shadow: 9px 9px 16px rgba(163,177,198,0.7), -9px -9px 16px rgba(255,255,255,0.9);
       text-align: center;
-      font-size: 1.6rem;
     }
 
+    h1 { margin: 0 0 10px; font-size: 1.6rem; color: #3d4a5c; }
+    
+    /* 설명 텍스트 */
     .desc {
-      text-align: center;
       color: #5a677b;
-      margin-bottom: 14px;
+      margin-bottom: 20px;
       line-height: 1.5;
+      font-size: 1.05rem;
+      word-break: keep-all;
     }
 
+    /* 환경 뱃지 */
     .badge {
       display: inline-block;
       padding: 6px 12px;
       border-radius: 999px;
-      background: rgba(0,0,0,.06);
-      font-size: .9rem;
+      background: rgba(0,0,0,0.06);
+      font-size: 0.9rem;
+      color: #5a677b;
+      margin-bottom: 10px;
     }
 
-    .center { text-align: center; }
-
+    /* 경고 메시지 (카톡 등) */
     .warn {
       margin-top: 10px;
       font-weight: 800;
       color: #d63031;
+      font-size: 0.95rem;
     }
 
+    /* 설치 순서 리스트 */
     ol {
-      margin: 12px 0 0 18px;
-      padding: 0;
+      margin: 15px 0 0 0;
+      padding-left: 20px;
+      text-align: left;
       line-height: 1.8;
       color: #5a677b;
+      display: inline-block; /* 리스트를 중앙 정렬된 박스 안에서 왼쪽 정렬 */
     }
-
     li { margin: 8px 0; }
 
+    /* 버튼 영역 */
     .btns {
       display: flex;
       justify-content: center;
-      margin-top: 18px;
       width: 100%;
+      margin-top: 24px;
     }
 
+    /* ✅✅ 버튼 스타일 (중앙 정렬 + 파란색 적용 완료) ✅✅ */
     button {
       border: 0;
       border-radius: 14px;
-      padding: 12px 20px;
+      padding: 14px 24px;
       cursor: pointer;
-      background: #ffffff80;
-      color: #2f3a4a;
-      font-weight: 800;
-      box-shadow:
-        6px 6px 12px rgba(163,177,198,.45),
-       -6px -6px 12px rgba(255,255,255,.75);
 
-      /* ✅ 텍스트 중앙정렬 핵심 */
-      display: inline-flex;
+      /* 파란색 배경 */
+      background: #2563eb;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 1rem;
+
+      /* 그림자 */
+      box-shadow: 6px 6px 12px rgba(163, 177, 198, 0.45), -6px -6px 12px rgba(255, 255, 255, 0.75);
+
+      /* 텍스트 중앙 정렬 핵심 코드 */
+      display: flex;
       justify-content: center;
       align-items: center;
       text-align: center;
-      min-width: 140px;
+      
+      width: 100%;
+      max-width: 240px; /* 버튼 최대 크기 */
+      margin: 0 auto;
+      
+      line-height: 1.2; /* 한글 수직 정렬 보정 */
+    }
+    button:active { transform: translateY(2px); box-shadow: inset 4px 4px 8px rgba(0,0,0,0.2); }
+
+    /* 작은 안내 문구 */
+    .small {
+      margin-top: 20px;
+      font-size: 0.85rem;
+      color: #6b7890;
+      line-height: 1.4;
     }
 
-    button:active { transform: translateY(1px); }
-
+    /* 실제 앱(iframe) - 평소엔 숨김 */
     iframe {
       position: fixed;
       inset: 0;
@@ -127,21 +146,15 @@
       -webkit-overflow-scrolling: touch;
     }
 
+    /* 숨김 유틸리티 클래스 */
     .hide { display: none !important; }
-
-    .small {
-      margin-top: 14px;
-      font-size: .9rem;
-      color: #6b7890;
-      text-align: center;
-      line-height: 1.5;
-    }
   </style>
 
   <script>
-    const APP_URL =
-      "https://script.google.com/macros/s/AKfycbzLyWl4cHIEmwPDhjMGADoWN1MHa2OLhkVtcJldWDlHzRgyz-Yb9CGNleaiwmrV1-ZvBg/exec";
+    // ✅ 우성고 카드 시스템 주소 (수정된 새 주소 적용됨)
+    const APP_URL = "https://script.google.com/macros/s/AKfycbzLyWl4cHIEmwPDhjMGADoWN1MHa2OLhkVtcJldWDlHzRgyz-Yb9CGNleaiwmrV1-ZvBg/exec";
 
+    // 서비스워커 등록 (PWA 필수)
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("./sw.js", { scope: "./" }).catch(console.error);
     }
@@ -152,29 +165,30 @@
 
 <iframe
   id="appFrame"
+  title="우성고 카드 시스템"
   allow="camera; microphone; geolocation; autoplay; fullscreen">
 </iframe>
 
 <div id="installUI" class="wrap">
   <div class="card">
-    <h1>📱 우성고 카드 설치</h1>
-    <p class="desc" id="topMsg">홈 화면에 추가해서 앱처럼 사용해주세요.</p>
+    <h1>📱 우성고 카드</h1>
+    <p class="desc" id="topMsg">앱 사용을 위해 설치가 필요합니다.</p>
 
-    <div class="center">
+    <div>
       <span class="badge" id="envBadge">환경 확인 중…</span>
       <div id="warnMsg" class="warn hide">
-        카카오톡·네이버 등 앱 안에서는 설치가 불가능합니다.
+        ⚠️ 카카오톡/네이버에서는 설치 불가<br>외부 브라우저로 열어주세요.
       </div>
     </div>
 
     <ol id="steps"></ol>
 
     <div class="btns">
-      <button id="installBtn" class="hide" type="button">설치하기</button>
+      <button id="installBtn" class="hide" type="button">앱 설치하기</button>
     </div>
 
     <div class="small">
-      설치 후에는 홈 화면의 <b>우성고 카드</b> 아이콘으로 실행하세요.
+      설치가 완료되면 홈 화면에 추가된<br><b>[우성고 카드]</b> 아이콘으로 접속해주세요.
     </div>
   </div>
 </div>
@@ -182,6 +196,7 @@
 <script>
   const $ = id => document.getElementById(id);
 
+  // 앱 화면 보여주기 함수
   function showApp() {
     $("installUI").classList.add("hide");
     const f = $("appFrame");
@@ -189,79 +204,90 @@
     f.style.display = "block";
   }
 
+  // 설명 리스트 만드는 함수
   function setSteps(arr) {
-    $("steps").innerHTML = arr.map(v => `<li>${v}</li>`).join("");
+    const ol = $("steps");
+    if (arr.length === 0) {
+      ol.innerHTML = "";
+      ol.style.display = "none"; // 내용 없으면 숨김
+    } else {
+      ol.style.display = "inline-block";
+      ol.innerHTML = arr.map(v => `<li>${v}</li>`).join("");
+    }
   }
 
   document.addEventListener("DOMContentLoaded", () => {
-
-    const isStandalone =
-      window.matchMedia("(display-mode: standalone)").matches ||
-      window.navigator.standalone === true;
+    // 1. 이미 앱(Standalone)으로 실행 중인지 확인
+    const isStandalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
 
     if (isStandalone) {
-      showApp();
+      showApp(); // 바로 앱 실행
       return;
     }
 
+    // 2. 브라우저 환경 감지
     const ua = navigator.userAgent.toLowerCase();
     const isiOS = /iphone|ipad|ipod/.test(ua);
     const isAndroid = /android/.test(ua);
+    
+    // 인앱 브라우저 감지 (카톡, 네이버, 인스타, 페북 등)
+    const isInApp = ua.includes("kakaotalk") || (ua.includes("naver") && ua.includes("inapp")) || ua.includes("instagram") || ua.includes("fbav") || ua.includes("line");
 
-    const isInApp =
-      ua.includes("kakaotalk") ||
-      (ua.includes("naver") && ua.includes("inapp")) ||
-      ua.includes("instagram") ||
-      ua.includes("fbav");
+    // 뱃지 텍스트 설정
+    $("envBadge").textContent = isInApp ? "인앱 브라우저" : isiOS ? "iOS (아이폰)" : "Android (안드로이드)";
 
-    $("envBadge").textContent =
-      isInApp ? "인앱 브라우저" : isiOS ? "iOS" : "Android";
+    // 3. 상황별 화면 처리
 
+    // [CASE A] 인앱 브라우저 (설치 불가 -> 경고 표시)
     if (isInApp) {
       $("warnMsg").classList.remove("hide");
-      $("topMsg").innerHTML =
-        "설치를 위해 <b>외부 브라우저</b>로 열어주세요.";
-
+      $("topMsg").innerHTML = "지금은 <b>임시 화면</b>입니다.<br>설치를 위해 브라우저를 바꿔주세요.";
       setSteps([
-        "상단 또는 하단의 <b>공유 / ⋯ 메뉴</b>를 누르세요.",
-        "<b>다른 브라우저로 열기</b>를 선택하세요.",
-        "열린 브라우저에서 다시 설치를 진행하세요."
+        "화면의 <b>[점 3개]</b> 또는 <b>[공유]</b> 버튼 클릭",
+        "<b>[다른 브라우저로 열기]</b> 선택 (Chrome/Safari)",
+        "새로 열린 창에서 설치 진행"
       ]);
-      return;
+      return; // 버튼 안 보여줌
     }
 
+    // [CASE B] 아이폰 (iOS)
     if (isiOS) {
-      $("topMsg").innerHTML =
-        "아이폰은 <b>공유 메뉴 → 홈 화면에 추가</b>로 설치합니다.";
-
+      $("topMsg").innerHTML = "아이폰은 <b>홈 화면에 추가</b>하여 사용합니다.";
       setSteps([
-        "<b>공유 버튼(⬆︎)</b>을 누르세요.",
-        "<b>홈 화면에 추가</b>를 선택하세요.",
-        "<b>추가</b>를 눌러 설치를 완료하세요.",
-        "※ 메뉴에 없으면 <b>Safari</b>로 다시 열어주세요."
+        "하단 또는 상단의 <b>공유 버튼(<i class='fa-solid fa-arrow-up-from-bracket'></i>)</b> 클릭",
+        "메뉴에서 <b>[홈 화면에 추가]</b> 선택",
+        "우측 상단 <b>[추가]</b> 버튼 클릭"
       ]);
-      return;
+      return; // 버튼 안 보여줌 (iOS는 버튼으로 설치 불가)
     }
 
-    // ✅ 안드로이드: 설명 없이 버튼만
+    // [CASE C] 안드로이드 (크롬/삼성인터넷 등)
+    // 설명은 숨기고, 버튼만 대기
     $("topMsg").innerHTML = "아래 버튼을 눌러 앱을 설치하세요.";
     setSteps([]);
 
     let deferredPrompt = null;
+    
+    // 브라우저가 설치 가능한 상태가 되면 이벤트 발생
     window.addEventListener("beforeinstallprompt", e => {
       e.preventDefault();
       deferredPrompt = e;
+      // 설치 버튼 등장!
       $("installBtn").classList.remove("hide");
     });
 
+    // 버튼 클릭 시 설치 창 띄우기
     $("installBtn").addEventListener("click", async () => {
       if (!deferredPrompt) return;
       deferredPrompt.prompt();
-      await deferredPrompt.userChoice.catch(()=>{});
+      await deferredPrompt.userChoice.catch(() => {});
       deferredPrompt = null;
+      $("installBtn").classList.add("hide"); // 설치 후 버튼 숨김
     });
   });
 </script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 
 </body>
 </html>
