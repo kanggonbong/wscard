@@ -1,266 +1,266 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>우성고 카드 설치</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>우성고 카드 설치</title>
 
-  <!-- PWA -->
-  <link rel="manifest" href="./manifest.json" />
-  <meta name="theme-color" content="#e0e5ec" />
+  <!-- PWA -->
+  <link rel="manifest" href="./manifest.json" />
+  <meta name="theme-color" content="#e0e5ec" />
 
-  <!-- iOS PWA -->
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="우성고 카드" />
-  <link rel="apple-touch-icon" href="./icon-192.png" />
+  <!-- iOS PWA -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="우성고 카드" />
+  <link rel="apple-touch-icon" href="./icon-192.png" />
 
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-    }
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    }
 
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(-45deg, #e0e5ec, #d1d9e6, #c8d0e7, #b8c6dc);
-      background-size: 400% 400%;
-      animation: bg 15s ease infinite;
-      color: #3d4a5c;
-    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(-45deg, #e0e5ec, #d1d9e6, #c8d0e7, #b8c6dc);
+      background-size: 400% 400%;
+      animation: bg 15s ease infinite;
+      color: #3d4a5c;
+    }
 
-    @keyframes bg {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+    @keyframes bg {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
 
-    .wrap { width: min(560px, 92vw); }
+    .wrap { width: min(560px, 92vw); }
 
-    .card {
-      background: #e0e5ec;
-      border-radius: 26px;
-      padding: 26px;
-      box-shadow:
-        9px 9px 16px rgba(163,177,198,.7),
-       -9px -9px 16px rgba(255,255,255,.9);
-    }
+    .card {
+      background: #e0e5ec;
+      border-radius: 26px;
+      padding: 26px;
+      box-shadow:
+        9px 9px 16px rgba(163,177,198,.7),
+       -9px -9px 16px rgba(255,255,255,.9);
+    }
 
-    h1 {
-      margin: 0 0 8px;
-      text-align: center;
-      font-size: 1.6rem;
-    }
+    h1 {
+      margin: 0 0 8px;
+      text-align: center;
+      font-size: 1.6rem;
+    }
 
-    .desc {
-      text-align: center;
-      color: #5a677b;
-      margin-bottom: 14px;
-      line-height: 1.5;
-    }
+    .desc {
+      text-align: center;
+      color: #5a677b;
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
 
-    .badge {
-      display: inline-block;
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: rgba(0,0,0,.06);
-      font-size: .9rem;
-    }
+    .badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.06);
+      font-size: .9rem;
+    }
 
-    .center { text-align: center; }
+    .center { text-align: center; }
 
-    .warn {
-      margin-top: 10px;
-      font-weight: 800;
-      color: #d63031;
-    }
+    .warn {
+      margin-top: 10px;
+      font-weight: 800;
+      color: #d63031;
+    }
 
-    ol {
-      margin: 12px 0 0 18px;
-      padding: 0;
-      line-height: 1.8;
-      color: #5a677b;
-    }
+    ol {
+      margin: 12px 0 0 18px;
+      padding: 0;
+      line-height: 1.8;
+      color: #5a677b;
+    }
 
-    li { margin: 8px 0; }
+    li { margin: 8px 0; }
 
-    .btns {
-      display: flex;
-      justify-content: center;
-      margin-top: 18px;
-      width: 100%;
-    }
+    .btns {
+      display: flex;
+      justify-content: center;
+      margin-top: 18px;
+      width: 100%;
+    }
 
-    button {
-      border: 0;
-      border-radius: 14px;
-      padding: 12px 20px;
-      cursor: pointer;
-      background: #ffffff80;
-      color: #2f3a4a;
-      font-weight: 800;
-      box-shadow:
-        6px 6px 12px rgba(163,177,198,.45),
-       -6px -6px 12px rgba(255,255,255,.75);
+    button {
+      border: 0;
+      border-radius: 14px;
+      padding: 12px 20px;
+      cursor: pointer;
+      background: #ffffff80;
+      color: #2f3a4a;
+      font-weight: 800;
+      box-shadow:
+        6px 6px 12px rgba(163,177,198,.45),
+       -6px -6px 12px rgba(255,255,255,.75);
 
-      /* ✅ 텍스트 중앙정렬 핵심 */
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      min-width: 140px;
-    }
+      /* ✅ 텍스트 중앙정렬 핵심 */
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      min-width: 140px;
+    }
 
-    button:active { transform: translateY(1px); }
+    button:active { transform: translateY(1px); }
 
-    iframe {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: 0;
-      display: none;
-      background: #fff;
-      -webkit-overflow-scrolling: touch;
-    }
+    iframe {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: none;
+      background: #fff;
+      -webkit-overflow-scrolling: touch;
+    }
 
-    .hide { display: none !important; }
+    .hide { display: none !important; }
 
-    .small {
-      margin-top: 14px;
-      font-size: .9rem;
-      color: #6b7890;
-      text-align: center;
-      line-height: 1.5;
-    }
-  </style>
+    .small {
+      margin-top: 14px;
+      font-size: .9rem;
+      color: #6b7890;
+      text-align: center;
+      line-height: 1.5;
+    }
+  </style>
 
-  <script>
-    const APP_URL =
-      "https://script.google.com/macros/s/AKfycbzLyWl4cHIEmwPDhjMGADoWN1MHa2OLhkVtcJldWDlHzRgyz-Yb9CGNleaiwmrV1-ZvBg/exec";
+  <script>
+    const APP_URL =
+      "https://script.google.com/macros/s/AKfycbzLyWl4cHIEmwPDhjMGADoWN1MHa2OLhkVtcJldWDlHzRgyz-Yb9CGNleaiwmrV1-ZvBg/exec";
 
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("./sw.js", { scope: "./" }).catch(console.error);
-    }
-  </script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("./sw.js", { scope: "./" }).catch(console.error);
+    }
+  </script>
 </head>
 
 <body>
 
 <iframe
-  id="appFrame"
-  allow="camera; microphone; geolocation; autoplay; fullscreen">
+  id="appFrame"
+  allow="camera; microphone; geolocation; autoplay; fullscreen">
 </iframe>
 
 <div id="installUI" class="wrap">
-  <div class="card">
-    <h1>📱 우성고 카드 설치</h1>
-    <p class="desc" id="topMsg">홈 화면에 추가해서 앱처럼 사용해주세요.</p>
+  <div class="card">
+    <h1>📱 우성고 카드 설치</h1>
+    <p class="desc" id="topMsg">홈 화면에 추가해서 앱처럼 사용해주세요.</p>
 
-    <div class="center">
-      <span class="badge" id="envBadge">환경 확인 중…</span>
-      <div id="warnMsg" class="warn hide">
-        카카오톡·네이버 등 앱 안에서는 설치가 불가능합니다.
-      </div>
-    </div>
+    <div class="center">
+      <span class="badge" id="envBadge">환경 확인 중…</span>
+      <div id="warnMsg" class="warn hide">
+        카카오톡·네이버 등 앱 안에서는 설치가 불가능합니다.
+      </div>
+    </div>
 
-    <ol id="steps"></ol>
+    <ol id="steps"></ol>
 
-    <div class="btns">
-      <button id="installBtn" class="hide" type="button">설치하기</button>
-    </div>
+    <div class="btns">
+      <button id="installBtn" class="hide" type="button">설치하기</button>
+    </div>
 
-    <div class="small">
-      설치 후에는 홈 화면의 <b>우성고 카드</b> 아이콘으로 실행하세요.
-    </div>
-  </div>
+    <div class="small">
+      설치 후에는 홈 화면의 <b>우성고 카드</b> 아이콘으로 실행하세요.
+    </div>
+  </div>
 </div>
 
 <script>
-  const $ = id => document.getElementById(id);
+  const $ = id => document.getElementById(id);
 
-  function showApp() {
-    $("installUI").classList.add("hide");
-    const f = $("appFrame");
-    f.src = APP_URL;
-    f.style.display = "block";
-  }
+  function showApp() {
+    $("installUI").classList.add("hide");
+    const f = $("appFrame");
+    f.src = APP_URL;
+    f.style.display = "block";
+  }
 
-  function setSteps(arr) {
-    $("steps").innerHTML = arr.map(v => `<li>${v}</li>`).join("");
-  }
+  function setSteps(arr) {
+    $("steps").innerHTML = arr.map(v => `<li>${v}</li>`).join("");
+  }
 
-  document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", () => {
 
-    const isStandalone =
-      window.matchMedia("(display-mode: standalone)").matches ||
-      window.navigator.standalone === true;
+    const isStandalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      window.navigator.standalone === true;
 
-    if (isStandalone) {
-      showApp();
-      return;
-    }
+    if (isStandalone) {
+      showApp();
+      return;
+    }
 
-    const ua = navigator.userAgent.toLowerCase();
-    const isiOS = /iphone|ipad|ipod/.test(ua);
-    const isAndroid = /android/.test(ua);
+    const ua = navigator.userAgent.toLowerCase();
+    const isiOS = /iphone|ipad|ipod/.test(ua);
+    const isAndroid = /android/.test(ua);
 
-    const isInApp =
-      ua.includes("kakaotalk") ||
-      (ua.includes("naver") && ua.includes("inapp")) ||
-      ua.includes("instagram") ||
-      ua.includes("fbav");
+    const isInApp =
+      ua.includes("kakaotalk") ||
+      (ua.includes("naver") && ua.includes("inapp")) ||
+      ua.includes("instagram") ||
+      ua.includes("fbav");
 
-    $("envBadge").textContent =
-      isInApp ? "인앱 브라우저" : isiOS ? "iOS" : "Android";
+    $("envBadge").textContent =
+      isInApp ? "인앱 브라우저" : isiOS ? "iOS" : "Android";
 
-    if (isInApp) {
-      $("warnMsg").classList.remove("hide");
-      $("topMsg").innerHTML =
-        "설치를 위해 <b>외부 브라우저</b>로 열어주세요.";
+    if (isInApp) {
+      $("warnMsg").classList.remove("hide");
+      $("topMsg").innerHTML =
+        "설치를 위해 <b>외부 브라우저</b>로 열어주세요.";
 
-      setSteps([
-        "상단 또는 하단의 <b>공유 / ⋯ 메뉴</b>를 누르세요.",
-        "<b>다른 브라우저로 열기</b>를 선택하세요.",
-        "열린 브라우저에서 다시 설치를 진행하세요."
-      ]);
-      return;
-    }
+      setSteps([
+        "상단 또는 하단의 <b>공유 / ⋯ 메뉴</b>를 누르세요.",
+        "<b>다른 브라우저로 열기</b>를 선택하세요.",
+        "열린 브라우저에서 다시 설치를 진행하세요."
+      ]);
+      return;
+    }
 
-    if (isiOS) {
-      $("topMsg").innerHTML =
-        "아이폰은 <b>공유 메뉴 → 홈 화면에 추가</b>로 설치합니다.";
+    if (isiOS) {
+      $("topMsg").innerHTML =
+        "아이폰은 <b>공유 메뉴 → 홈 화면에 추가</b>로 설치합니다.";
 
-      setSteps([
-        "<b>공유 버튼(⬆︎)</b>을 누르세요.",
-        "<b>홈 화면에 추가</b>를 선택하세요.",
-        "<b>추가</b>를 눌러 설치를 완료하세요.",
-        "※ 메뉴에 없으면 <b>Safari</b>로 다시 열어주세요."
-      ]);
-      return;
-    }
+      setSteps([
+        "<b>공유 버튼(⬆︎)</b>을 누르세요.",
+        "<b>홈 화면에 추가</b>를 선택하세요.",
+        "<b>추가</b>를 눌러 설치를 완료하세요.",
+        "※ 메뉴에 없으면 <b>Safari</b>로 다시 열어주세요."
+      ]);
+      return;
+    }
 
-    // ✅ 안드로이드: 설명 없이 버튼만
-    $("topMsg").innerHTML = "아래 버튼을 눌러 앱을 설치하세요.";
-    setSteps([]);
+    // ✅ 안드로이드: 설명 없이 버튼만
+    $("topMsg").innerHTML = "아래 버튼을 눌러 앱을 설치하세요.";
+    setSteps([]);
 
-    let deferredPrompt = null;
-    window.addEventListener("beforeinstallprompt", e => {
-      e.preventDefault();
-      deferredPrompt = e;
-      $("installBtn").classList.remove("hide");
-    });
+    let deferredPrompt = null;
+    window.addEventListener("beforeinstallprompt", e => {
+      e.preventDefault();
+      deferredPrompt = e;
+      $("installBtn").classList.remove("hide");
+    });
 
-    $("installBtn").addEventListener("click", async () => {
-      if (!deferredPrompt) return;
-      deferredPrompt.prompt();
-      await deferredPrompt.userChoice.catch(()=>{});
-      deferredPrompt = null;
-    });
-  });
+    $("installBtn").addEventListener("click", async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice.catch(()=>{});
+      deferredPrompt = null;
+    });
+  });
 </script>
 
 </body>
