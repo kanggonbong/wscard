@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
   <title>우성고 카드 설치</title>
 
   <link rel="manifest" href="./manifest.json" />
@@ -14,10 +14,10 @@
   <link rel="apple-touch-icon" href="./icon-192.png" />
 
   <style>
-    /* 기본 설정 */
+    /* 1. 기본 초기화 */
     html, body {
-      height: 100%; margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      height: 100%; margin: 0; padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
 
     body {
@@ -33,68 +33,90 @@
       100% { background-position: 0% 50%; }
     }
 
-    .wrap { width: min(560px, 92vw); }
+    /* 2. 카드 디자인 */
+    .wrap { width: min(560px, 90vw); }
     .card {
       background: #e0e5ec;
       border-radius: 26px;
-      padding: 30px 26px;
+      padding: 32px 24px;
       box-shadow: 9px 9px 16px rgba(163,177,198,0.7), -9px -9px 16px rgba(255,255,255,0.9);
       text-align: center;
     }
 
-    h1 { margin: 0 0 10px; font-size: 1.6rem; color: #3d4a5c; }
-    .desc { color: #5a677b; margin-bottom: 20px; line-height: 1.5; font-size: 1.05rem; }
-    .badge { display: inline-block; padding: 6px 12px; border-radius: 999px; background: rgba(0,0,0,0.06); font-size: 0.9rem; color: #5a677b; margin-bottom: 10px; }
-    .warn { margin-top: 10px; font-weight: 800; color: #d63031; font-size: 0.95rem; }
+    h1 { margin: 0 0 12px; font-size: 1.6rem; color: #3d4a5c; word-break: keep-all; }
+    .desc { color: #5a677b; margin-bottom: 20px; line-height: 1.5; font-size: 1.05rem; word-break: keep-all; }
     
-    ol { margin: 15px 0 0 0; padding-left: 20px; text-align: left; line-height: 1.8; color: #5a677b; display: inline-block; }
-    li { margin: 8px 0; }
+    .badge { 
+      display: inline-block; padding: 6px 14px; 
+      border-radius: 999px; background: rgba(0,0,0,0.06); 
+      font-size: 0.9rem; color: #5a677b; margin-bottom: 12px; 
+    }
+    
+    .warn { 
+      margin-top: 10px; font-weight: 800; color: #d63031; font-size: 0.95rem; line-height: 1.4;
+    }
+    
+    ol { margin: 16px 0 0 0; padding-left: 22px; text-align: left; line-height: 1.8; color: #5a677b; display: inline-block; }
+    li { margin: 6px 0; }
 
     .btns { display: flex; justify-content: center; width: 100%; margin-top: 24px; }
 
-    /* ✅✅✅ 버튼 강제 정렬 (제안받으신 해결책 적용) ✅✅✅ */
-    /* id로 강력하게 지정해서 우선순위를 높임 */
-    #installBtn {
-      border: 0;
-      border-radius: 14px;
-      padding: 14px 24px;
-      cursor: pointer;
-      background: #2563eb;
-      color: #ffffff;
-      font-weight: 800;
-      font-size: 1rem;
-      box-shadow: 6px 6px 12px rgba(163, 177, 198, 0.45), -6px -6px 12px rgba(255, 255, 255, 0.75);
+    /* 3. ✅✅✅ 버튼 강제 정렬 스타일 (핵심) ✅✅✅ */
+    /* id로 강력하게 지정하여 모든 브라우저 기본 스타일을 덮어씁니다 */
+    #installBtn, 
+    a.custom-btn {
+      /* [중요] 안드로이드/iOS 기본 버튼 모양 제거 */
+      -webkit-appearance: none !important;
+      appearance: none !important;
+      border: 0 !important;
+      text-decoration: none !important;
 
-      /* 🔥 여기가 핵심: !important로 무조건 중앙 정렬 강제 🔥 */
+      /* [중요] 무조건 정중앙 정렬 */
       display: flex !important;
       justify-content: center !important;
       align-items: center !important;
       text-align: center !important;
-      
+
+      /* 디자인: 파란색 버튼 */
+      background: #2563eb !important;
+      color: #ffffff !important;
+      border-radius: 14px !important;
+      font-weight: 800 !important;
+      font-size: 1.05rem !important;
+      box-shadow: 6px 6px 12px rgba(163, 177, 198, 0.45), -6px -6px 12px rgba(255, 255, 255, 0.75) !important;
+
+      /* 크기 설정 */
       width: 100% !important;
-      max-width: 240px !important;
+      max-width: 260px !important;
       margin: 0 auto !important;
+      padding: 16px 20px !important;
       box-sizing: border-box !important;
       
-      line-height: 1.2;
+      /* 텍스트 줄맞춤 보정 */
+      line-height: 1.2 !important;
+      font-family: inherit !important;
+      cursor: pointer !important;
     }
+
+    #installBtn:active, a.custom-btn:active {
+      transform: translateY(2px);
+      box-shadow: inset 3px 3px 6px rgba(0,0,0,0.2) !important;
+    }
+
+    /* span으로 텍스트 한번 더 감싸서 쏠림 완벽 방지 */
+    #installBtn span, a.custom-btn span {
+      display: block; width: 100%; text-align: center;
+    }
+
+    .small { margin-top: 22px; font-size: 0.85rem; color: #6b7890; line-height: 1.4; word-break: keep-all; }
     
-    #installBtn:active { transform: translateY(2px); }
-
-    /* 버튼 안의 텍스트도 한번 더 정리 (2중 안전장치) */
-    #installBtn span {
-      display: block;
-      width: 100%;
-      text-align: center;
-    }
-
-    .small { margin-top: 20px; font-size: 0.85rem; color: #6b7890; line-height: 1.4; }
+    /* iframe 및 유틸리티 */
     iframe { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; display: none; background: #fff; z-index: 9999; }
     .hide { display: none !important; }
   </style>
 
   <script>
-    // ✅ 앱스 스크립트 주소
+    // ✅ 앱스 스크립트 웹앱 주소 (최신 버전)
     const APP_URL = "https://script.google.com/macros/s/AKfycbzLyWl4cHIEmwPDhjMGADoWN1MHa2OLhkVtcJldWDlHzRgyz-Yb9CGNleaiwmrV1-ZvBg/exec";
 
     // 서비스워커 등록
@@ -111,12 +133,12 @@
 <div id="installUI" class="wrap">
   <div class="card">
     <h1>📱 우성고 카드</h1>
-    <p class="desc" id="topMsg">앱 사용을 위해 설치가 필요합니다.</p>
+    <p class="desc" id="topMsg">원활한 사용을 위해<br>앱을 설치해주세요.</p>
 
     <div>
       <span class="badge" id="envBadge">환경 확인 중…</span>
       <div id="warnMsg" class="warn hide">
-        ⚠️ 카카오톡/네이버에서는 설치 불가<br>외부 브라우저로 열어주세요.
+        ⚠️ 카카오톡/네이버에서는<br>설치가 불가능합니다.
       </div>
     </div>
 
@@ -129,7 +151,7 @@
     </div>
 
     <div class="small">
-      설치가 완료되면 홈 화면의<br><b>[우성고 카드]</b> 아이콘으로 실행하세요.
+      설치 후 홈 화면에 추가된<br><b>[우성고 카드]</b> 아이콘으로 실행하세요.
     </div>
   </div>
 </div>
@@ -140,36 +162,50 @@
   function setSteps(arr) { const ol = $("steps"); if (arr.length === 0) { ol.innerHTML = ""; ol.style.display = "none"; } else { ol.style.display = "inline-block"; ol.innerHTML = arr.map(v => `<li>${v}</li>`).join(""); } }
 
   document.addEventListener("DOMContentLoaded", () => {
+    // 1. 이미 앱(Standalone) 모드인지 확인
     const isStandalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
     if (isStandalone) { showApp(); return; }
 
+    // 2. 환경 감지
     const ua = navigator.userAgent.toLowerCase();
     const isiOS = /iphone|ipad|ipod/.test(ua);
     const isInApp = ua.includes("kakaotalk") || (ua.includes("naver") && ua.includes("inapp")) || ua.includes("instagram") || ua.includes("fbav") || ua.includes("line");
 
     $("envBadge").textContent = isInApp ? "인앱 브라우저" : isiOS ? "iOS (아이폰)" : "Android (안드로이드)";
 
+    // [CASE A] 인앱 브라우저 (카톡 등)
     if (isInApp) {
       $("warnMsg").classList.remove("hide");
-      $("topMsg").innerHTML = "지금은 <b>임시 화면</b>입니다.<br>설치를 위해 브라우저를 바꿔주세요.";
-      setSteps(["화면의 <b>[점 3개]</b> 또는 <b>[공유]</b> 클릭", "<b>[다른 브라우저(Chrome)]</b>로 열기", "새 창에서 설치 진행"]);
-      return;
+      $("topMsg").innerHTML = "지금은 <b>임시 브라우저</b>입니다.<br>설치를 위해 브라우저를 바꿔주세요.";
+      setSteps([
+        "화면의 <b>[점 3개]</b> 또는 <b>[공유]</b> 클릭",
+        "<b>[다른 브라우저(Chrome/Safari)]</b> 선택",
+        "새로 열린 창에서 설치 진행"
+      ]);
+      return; 
     }
 
+    // [CASE B] iOS (아이폰)
     if (isiOS) {
-      $("topMsg").innerHTML = "아이폰은 <b>홈 화면에 추가</b>하여 사용합니다.";
-      setSteps(["하단 <b>공유 버튼(<i class='fa-solid fa-arrow-up-from-bracket'></i>)</b> 클릭", "<b>[홈 화면에 추가]</b> 선택", "우측 상단 <b>[추가]</b> 클릭"]);
+      $("topMsg").innerHTML = "아이폰은 <b>홈 화면에 추가</b>하여<br>앱처럼 사용할 수 있습니다.";
+      setSteps([
+        "하단(또는 상단) <b>공유 버튼(<i class='fa-solid fa-arrow-up-from-bracket'></i>)</b> 클릭",
+        "메뉴에서 <b>[홈 화면에 추가]</b> 선택",
+        "우측 상단 <b>[추가]</b> 버튼 클릭"
+      ]);
       return;
     }
 
-    // 안드로이드
-    $("topMsg").innerHTML = "아래 버튼을 눌러 앱을 설치하세요.";
+    // [CASE C] 안드로이드 (크롬/삼성 등)
+    // 설명 문구 숨기고 버튼만 대기
+    $("topMsg").innerHTML = "아래 버튼을 눌러 설치하세요.";
     setSteps([]);
 
     let deferredPrompt = null;
     window.addEventListener("beforeinstallprompt", e => {
       e.preventDefault();
       deferredPrompt = e;
+      // 설치 버튼 표시
       $("installBtn").classList.remove("hide");
     });
 
@@ -182,6 +218,7 @@
     });
   });
 </script>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 </body>
 </html>
