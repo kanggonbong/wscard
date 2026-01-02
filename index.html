@@ -47,15 +47,15 @@
       font-size: 0.9rem; color: #5a677b; margin-bottom: 12px; 
     }
 
-    /* 2. ✅✅✅ 버튼/링크 강제 중앙 정렬 (핵심 CSS) ✅✅✅ */
-    /* id를 직접 지정해서 우선순위 최상으로 설정 */
+    /* 2. ✅✅✅ 버튼 스타일 통일 (핵심) ✅✅✅ */
+    /* 설치버튼(#installBtn)과 크롬이동버튼(#chromeBtn) 모두 같은 스타일 적용 */
     #installBtn, 
     #chromeBtn {
-      /* [중요] 링크의 기본 성질(밑줄, 왼쪽정렬) 제거 */
-      text-decoration: none !important;
+      /* [중요] 기본 버튼 스타일 초기화 */
       -webkit-appearance: none !important;
       appearance: none !important;
       border: 0 !important;
+      outline: none !important;
 
       /* [중요] Flexbox로 무조건 중앙 정렬 */
       display: flex !important;
@@ -68,13 +68,13 @@
       color: #ffffff !important;
       border-radius: 14px !important;
       font-weight: 800 !important;
-      font-size: 1rem !important;
+      font-size: 1.05rem !important;
       box-shadow: 6px 6px 12px rgba(163, 177, 198, 0.45), -6px -6px 12px rgba(255, 255, 255, 0.75) !important;
 
       /* 크기 설정 */
       width: 100% !important;
       max-width: 260px !important;
-      margin: 20px auto 0 auto !important; /* 버튼 자체를 화면 가운데로 */
+      margin: 20px auto 0 auto !important;
       padding: 16px 20px !important;
       box-sizing: border-box !important;
       
@@ -87,11 +87,6 @@
     #installBtn:active, #chromeBtn:active {
       transform: translateY(2px);
       box-shadow: inset 3px 3px 6px rgba(0,0,0,0.2) !important;
-    }
-
-    /* 텍스트 줄바꿈 방지 */
-    #installBtn span, #chromeBtn span {
-      display: block; width: 100%; text-align: center;
     }
 
     .small { margin-top: 22px; font-size: 0.85rem; color: #6b7890; line-height: 1.4; word-break: keep-all; }
@@ -125,12 +120,12 @@
     </div>
 
     <button id="installBtn" class="hide" type="button">
-      <span>앱 설치하기</span>
+      앱 설치하기
     </button>
 
-    <a id="chromeBtn" class="hide" href="#" target="_blank">
-      <span>크롬으로 계속하기</span>
-    </a>
+    <button id="chromeBtn" class="hide" type="button">
+      크롬으로 계속하기
+    </button>
 
     <div class="small" id="footNote">
       설치 후 홈 화면에 추가된 아이콘으로 실행하세요.
@@ -143,7 +138,7 @@
   function showApp() { $("installUI").classList.add("hide"); const f = $("appFrame"); f.src = APP_URL; f.style.display = "block"; }
 
   document.addEventListener("DOMContentLoaded", () => {
-    // 1. 앱 모드인지 확인
+    // 1. 앱 모드 확인
     const isStandalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
     if (isStandalone) { showApp(); return; }
 
@@ -152,36 +147,37 @@
     const isiOS = /iphone|ipad|ipod/.test(ua);
     const isAndroid = /android/.test(ua);
     
-    // 크롬인지 확인 (삼성인터넷 등 다른 브라우저와 구분)
-    // 크롬은 보통 'chrome'이 있고 'samsungbrowser'나 'edge' 같은 게 없어야 순정 크롬으로 봄
     const isChrome = /chrome/.test(ua) && !/samsungbrowser/.test(ua) && !/edge/.test(ua) && !/whale/.test(ua);
     const isInApp = ua.includes("kakaotalk") || (ua.includes("naver") && ua.includes("inapp")) || ua.includes("instagram") || ua.includes("line");
 
-    // 뱃지 텍스트
     if (isInApp) $("envBadge").textContent = "인앱 브라우저";
     else if (isAndroid && !isChrome) $("envBadge").textContent = "삼성/기타 브라우저";
     else if (isiOS) $("envBadge").textContent = "iOS";
     else $("envBadge").textContent = "Chrome";
 
-
     // ---------------------------------------------------------
-    // [상황 1] 안드로이드인데 크롬이 아닐 때 (삼성인터넷, 카톡 등)
-    // -> "크롬으로 계속하기" 버튼 표시
+    // [상황 1] 안드로이드 + (삼성인터넷 or 인앱)
+    // -> 크롬 강제 이동 버튼 (JS로 이동 처리)
     // ---------------------------------------------------------
-    if (isAndroid && !isChrome) {
+    if (isAndroid && (!isChrome || isInApp)) {
       $("topMsg").innerHTML = "원활한 설치를 위해<br><b>크롬 브라우저</b>에서 진행해주세요.";
       
-      // Intent 주소 생성: 안드로이드 시스템에 "크롬으로 이 주소 열어줘!"라고 요청
+      // Intent 주소 생성
       const intentUrl = "intent://" + APP_URL.replace(/^https?:\/\//, "") + "#Intent;scheme=https;package=com.android.chrome;end";
       
       const btn = $("chromeBtn");
-      btn.href = intentUrl; 
-      btn.classList.remove("hide"); // 버튼 등장
+      btn.classList.remove("hide"); // 버튼 표시
+      
+      // 🔥 핵심: 버튼 클릭 시 JS로 이동 (a 태그 대신 사용) 🔥
+      btn.onclick = () => {
+        window.location.href = intentUrl;
+      };
+      
       return;
     }
 
     // ---------------------------------------------------------
-    // [상황 2] iOS (아이폰)
+    // [상황 2] iOS
     // ---------------------------------------------------------
     if (isiOS) {
       $("topMsg").innerHTML = "<b>공유 버튼 <i class='fa-solid fa-arrow-up-from-bracket'></i></b>을 누르고<br><b>[홈 화면에 추가]</b>를 선택하세요.";
@@ -197,7 +193,7 @@
     window.addEventListener("beforeinstallprompt", e => {
       e.preventDefault();
       deferredPrompt = e;
-      $("installBtn").classList.remove("hide"); // 설치 버튼 등장
+      $("installBtn").classList.remove("hide");
     });
 
     $("installBtn").addEventListener("click", async () => {
