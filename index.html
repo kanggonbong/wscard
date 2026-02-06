@@ -5,9 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <title>우성고 카드 설치</title>
 
+  <!-- PWA -->
   <link rel="manifest" href="./manifest.json" />
   <meta name="theme-color" content="#e0e5ec" />
 
+  <!-- iOS PWA -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="우성고 카드" />
@@ -16,55 +18,68 @@
   <style>
     html, body { height: 100%; margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; overflow: hidden; }
 
-    body {
-      display: flex; justify-content: center; align-items: center;
+    body{
+      display:flex; justify-content:center; align-items:center;
       background: linear-gradient(-45deg, #e0e5ec, #d1d9e6, #c8d0e7, #b8c6dc);
-      background-size: 400% 400%; animation: bg 15s ease infinite;
-      color: #3d4a5c;
+      background-size: 400% 400%;
+      animation: bg 15s ease infinite;
+      color:#3d4a5c;
     }
-    @keyframes bg { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+    @keyframes bg { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
 
     .wrap { width: min(560px, 92vw); position: relative; z-index: 10; }
     .card {
-      background: #e0e5ec; border-radius: 26px; padding: 30px 26px;
+      background:#e0e5ec; border-radius:26px; padding:30px 26px;
       box-shadow: 9px 9px 16px rgba(163,177,198,0.7), -9px -9px 16px rgba(255,255,255,0.9);
-      text-align: center;
+      text-align:center;
     }
 
-    h1 { margin: 0 0 10px; font-size: 1.6rem; color: #3d4a5c; }
-    .desc { color: #5a677b; margin-bottom: 20px; line-height: 1.5; font-size: 1.05rem; word-break: keep-all; }
+    h1 { margin:0 0 10px; font-size:1.6rem; color:#3d4a5c; }
+    .desc { color:#5a677b; margin-bottom:20px; line-height:1.5; font-size:1.05rem; word-break:keep-all; }
+    .badge { display:inline-block; padding:6px 12px; border-radius:999px; background: rgba(0,0,0,0.06); font-size:0.9rem; color:#5a677b; margin-bottom:10px; }
+    .warn { margin-top:10px; font-weight:800; color:#d63031; font-size:0.95rem; }
+    .hide { display:none !important; }
 
-    .badge { display: inline-block; padding: 6px 12px; border-radius: 999px; background: rgba(0,0,0,0.06); font-size: 0.9rem; color: #5a677b; margin-bottom: 10px; }
-    .warn { margin-top: 10px; font-weight: 800; color: #d63031; font-size: 0.95rem; }
-
-    ol { margin: 15px 0 0 0; padding-left: 20px; text-align: left; line-height: 1.8; color: #5a677b; display: inline-block; }
+    ol { margin: 15px 0 0 0; padding-left: 20px; text-align:left; line-height:1.8; color:#5a677b; display:inline-block; }
     li { margin: 8px 0; }
 
-    .btns { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; margin-top: 24px; }
-
-    button.primary-btn {
-      border: 0; border-radius: 14px; padding: 14px 24px; cursor: pointer;
-      background: #2563eb; color: #ffffff; font-weight: 800; font-size: 1rem;
+    .btns { display:flex; justify-content:center; width:100%; margin-top:24px; }
+    button.primary-btn{
+      border:0; border-radius:14px; padding:14px 24px; cursor:pointer;
+      background:#2563eb; color:#fff; font-weight:800; font-size:1rem;
       box-shadow: 6px 6px 12px rgba(163, 177, 198, 0.45), -6px -6px 12px rgba(255, 255, 255, 0.75);
-      width: 100%; max-width: 240px;
-      display: flex; justify-content: center; align-items: center;
+      width:100%; max-width:240px;
+      display:flex; justify-content:center; align-items:center; text-align:center; line-height:1.2;
     }
     button.primary-btn:active { transform: translateY(2px); box-shadow: inset 4px 4px 8px rgba(0,0,0,0.2); }
 
-    button.secondary-btn {
-      border: 0; background: transparent; cursor: pointer;
-      color: #6b7890; font-size: 0.9rem; font-weight: 600; text-decoration: underline;
-      padding: 10px;
-    }
-    button.secondary-btn:hover { color: #2563eb; }
+    .small { margin-top:20px; font-size:0.85rem; color:#6b7890; line-height:1.4; }
 
-    .small { margin-top: 20px; font-size: 0.85rem; color: #6b7890; line-height: 1.4; }
-    .hide { display: none !important; }
+    iframe { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; display:none; background:#fff; z-index: 100; -webkit-overflow-scrolling: touch; }
+
+    /* ✅ 평소엔 숨김. 업로드(영수증) 동작 때만 나타나는 '비상 버튼' */
+    #emergencyBtn{
+      position: fixed; right: 16px; bottom: 18px; z-index: 9999;
+      display:none; opacity:0; transition: opacity .25s ease;
+      border: 1px solid rgba(37,99,235,0.25);
+      background: rgba(224,229,236,0.88);
+      backdrop-filter: blur(8px);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #2563eb;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+      cursor: pointer;
+    }
+    #emergencyBtn.show{ display:block; opacity:1; }
   </style>
 
   <script>
+    // ✅ GAS 웹앱 주소
     const APP_URL = "https://script.google.com/macros/s/AKfycbzLyWl4cHIEmwPDhjMGADoWN1MHa2OLhkVtcJldWDlHzRgyz-Yb9CGNleaiwmrV1-ZvBg/exec";
 
+    // 서비스워커 등록 (PWA)
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("./sw.js", { scope: "./" }).catch(console.error);
     }
@@ -72,70 +87,108 @@
 </head>
 
 <body>
+  <iframe id="appFrame" title="우성고 카드 시스템" allow="camera; microphone; geolocation; autoplay; fullscreen"></iframe>
 
-<div id="installUI" class="wrap">
-  <div class="card">
-    <h1>📱 우성고 카드</h1>
-    <p class="desc" id="topMsg">앱 사용을 위해 설치가 필요합니다.</p>
+  <button id="emergencyBtn" type="button">사진 첨부가 안될때 클릭!</button>
 
-    <div>
-      <span class="badge" id="envBadge">환경 확인 중…</span>
-      <div id="warnMsg" class="warn hide">
-        ⚠️ 보안상 <b>외부 브라우저</b>가 필요합니다.<br>Chrome(안드로이드) 또는 Safari(아이폰)로 열어주세요.
+  <div id="installUI" class="wrap">
+    <div class="card">
+      <h1>📱 우성고 카드</h1>
+      <p class="desc" id="topMsg">앱처럼 사용하려면 설치(홈화면 추가)가 필요합니다.</p>
+
+      <div>
+        <span class="badge" id="envBadge">환경 확인 중…</span>
+        <div id="warnMsg" class="warn hide">
+          ⚠️ 카카오톡/네이버 등 앱 안에서는 설치가 잘 안됩니다.<br>
+          꼭 Chrome(안드로이드) / Safari(아이폰)에서 열어주세요.
+        </div>
+      </div>
+
+      <ol id="steps"></ol>
+
+      <div class="btns">
+        <button id="installBtn" class="primary-btn hide" type="button">앱 설치하기</button>
+      </div>
+
+      <div class="small">
+        설치가 완료되면 홈 화면에 추가된<br><b>[우성고 카드]</b> 아이콘으로 접속해주세요.
       </div>
     </div>
-
-    <ol id="steps"></ol>
-
-    <div class="btns">
-      <button id="installBtn" class="primary-btn hide" type="button">앱 설치하기</button>
-      <button id="openWebBtn" class="secondary-btn" type="button">설치 없이 바로 실행하기</button>
-    </div>
-
-    <div class="small">
-      설치가 완료되면 홈 화면에 추가된<br><b>[우성고 카드]</b> 아이콘으로 접속해주세요.
-    </div>
   </div>
-</div>
 
 <script>
-  const $ = id => document.getElementById(id);
+  const $ = (id) => document.getElementById(id);
 
-  // ✅ (추천) 뒤로가기 혼란 방지: replace 사용
-  function openAppTopLevel() {
+  function showAppInIframe(){
     $("installUI").classList.add("hide");
-    window.location.replace(APP_URL);
+    const f = $("appFrame");
+    f.src = APP_URL;
+    f.style.display = "block";
   }
 
-  function setSteps(arr) {
-    const ol = $("steps");
-    if (!arr || arr.length === 0) {
-      ol.innerHTML = "";
-      ol.style.display = "none";
-      return;
+  function openSafeModeTopLevel(){
+    // iframe에서 업로드가 막히면 '직접 열기(가장 안정)'로 전환
+    if (confirm("영수증 업로드가 잘 안 되나요?\n확인을 누르면 '직접 연결 모드'로 전환합니다.")) {
+      window.location.replace(APP_URL);
     }
+  }
+
+  function setSteps(arr){
+    const ol = $("steps");
+    if (!arr || arr.length === 0) { ol.innerHTML = ""; ol.style.display = "none"; return; }
     ol.style.display = "inline-block";
     ol.innerHTML = arr.map(v => `<li>${v}</li>`).join("");
   }
 
+  // ✅ 비상 버튼: 평소 숨김 → 업로드 관련 동작이 감지될 때만 노출
+  function showEmergencyBtn(){
+    const b = $("emergencyBtn");
+    b.classList.add("show");
+  }
+  function hideEmergencyBtn(){
+    const b = $("emergencyBtn");
+    b.classList.remove("show");
+    // display:none 처리 위해 약간 기다렸다가 제거
+    setTimeout(()=>{ if(!b.classList.contains("show")) b.style.display="none"; }, 260);
+  }
+  $("emergencyBtn").addEventListener("click", openSafeModeTopLevel);
+
+  // ✅ GAS(iframe 내부)에서 보내는 postMessage 수신
+  window.addEventListener("message", (e) => {
+    // origin 체크: iframe 내부는 script.google.com에서 옴
+    if (!e.origin || !e.origin.includes("script.google.com")) return;
+
+    const data = e.data || {};
+    if (data.source !== "WS_CARD") return;
+
+    if (data.type === "UPLOAD_PICKER_OPEN" || data.type === "UPLOAD_START" || data.type === "UPLOAD_PICKER_TIMEOUT") {
+      showEmergencyBtn();
+      return;
+    }
+    if (data.type === "UPLOAD_END") {
+      hideEmergencyBtn();
+      return;
+    }
+  });
+
   document.addEventListener("DOMContentLoaded", () => {
-    // 1) Standalone(PWA) 모드 감지
+    // 1) 앱(Standalone) 모드 감지
     const isStandalone =
       window.matchMedia("(display-mode: standalone)").matches ||
       window.navigator.standalone === true;
 
+    // ✅ 설치된 앱으로 실행 중이면: 바로 iframe에 GAS 로드 (배너 안 뜸)
     if (isStandalone) {
-      $("installUI").classList.add("hide");
-      window.location.replace(APP_URL);
+      showAppInIframe();
       return;
     }
 
-    // 2) 환경 감지 (PC / Android / iOS / InApp)
+    // 2) 환경 감지
     const ua = navigator.userAgent.toLowerCase();
     const isiOS = /iphone|ipad|ipod/.test(ua);
     const isAndroid = /android/.test(ua);
 
-    // ✅ 웨일 제외 + 네이버 인앱만 감지
+    // 인앱 브라우저 감지 (카톡/네이버/인스타/페북/라인 등)
     const isInApp =
       /kakaotalk|instagram|fbav|fban|\bline\b/i.test(ua) ||
       (/naver/i.test(ua) && /inapp|app/i.test(ua));
@@ -146,78 +199,47 @@
       isAndroid ? "Android (안드로이드)" :
       "PC (데스크톱)";
 
-    // 버튼 이벤트 연결
-    $("openWebBtn").addEventListener("click", openAppTopLevel);
-
-    // [CASE A] 인앱 브라우저
+    // 3) 인앱이면 경고 + 설치 안내만
     if (isInApp) {
       $("warnMsg").classList.remove("hide");
-      $("topMsg").innerHTML = "이곳에서는 앱 설치가 제한됩니다.";
-      $("openWebBtn").classList.add("hide");
-
+      $("topMsg").innerHTML = "설치를 위해 <b>외부 브라우저</b>로 열어주세요.";
       setSteps([
-        "화면의 <b>[점 3개]</b> 또는 <b>[공유]</b> 버튼 클릭",
-        "<b>[다른 브라우저로 열기</b>(또는 <b>기본 브라우저로 열기</b>) 선택",
+        "화면의 <b>[⋯]</b> 또는 <b>[공유]</b> 버튼 클릭",
+        "<b>[다른 브라우저로 열기]</b> 선택",
         "Chrome 또는 Safari에서 다시 시도"
       ]);
       return;
     }
 
-    // [CASE B] iOS (수동 설치 안내)
+    // 4) iOS는 수동(홈화면 추가) 안내
     if (isiOS) {
       $("topMsg").innerHTML = "아이폰은 <b>홈 화면에 추가</b>하여 사용합니다.";
       setSteps([
-        "하단 또는 상단의 <b>공유 버튼(<i class='fa-solid fa-arrow-up-from-bracket'></i>)</b> 클릭",
+        "Safari에서 이 페이지를 열기",
+        "하단의 <b>공유 버튼(⬆︎)</b> 클릭",
         "메뉴에서 <b>[홈 화면에 추가]</b> 선택",
         "우측 상단 <b>[추가]</b> 버튼 클릭"
       ]);
       return;
     }
 
-    // [CASE C] PC (설치 불필요)
-    if (!isAndroid) {
-      $("topMsg").innerHTML = "PC에서는 설치 없이 바로 실행해도 됩니다.";
-      setSteps([]);
-      $("installBtn").classList.add("hide");
-      return;
-    }
-
-    // [CASE D] Android (설치 버튼 제공 + 이벤트 미발생 대비)
-    $("topMsg").innerHTML =
-      "아래 버튼을 눌러 앱을 설치하세요.<br><span style='font-size:0.85rem;color:#6b7890;font-weight:normal'>(버튼이 안 뜨면 브라우저 메뉴에서 '홈 화면에 추가' 선택)</span>";
+    // 5) Android는 설치 버튼(가능할 때만) 노출
+    $("topMsg").innerHTML = "아래 버튼을 눌러 앱을 설치하세요.";
     setSteps([]);
 
     let deferredPrompt = null;
-    let bipFired = false;
-
-    window.addEventListener("beforeinstallprompt", e => {
+    window.addEventListener("beforeinstallprompt", (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      bipFired = true;
       $("installBtn").classList.remove("hide");
     });
-
-    // ✅ 3초 내 이벤트가 안 뜨면 수동 안내로 전환
-    setTimeout(() => {
-      if (!bipFired) {
-        $("installBtn").classList.add("hide");
-        setSteps([
-          "오른쪽 위 <b>(⋮)</b> 메뉴 클릭",
-          "<b>[홈 화면에 추가]</b> 또는 <b>[앱 설치]</b> 선택"
-        ]);
-      }
-    }, 3000);
 
     $("installBtn").addEventListener("click", async () => {
       if (!deferredPrompt) return;
       deferredPrompt.prompt();
-      try {
-        const { outcome } = await deferredPrompt.userChoice;
-        if (outcome === "accepted") $("installBtn").classList.add("hide");
-      } catch (err) {
-        console.log("Install prompt error:", err);
-      }
+      try { await deferredPrompt.userChoice; } catch(_){}
       deferredPrompt = null;
+      $("installBtn").classList.add("hide");
     });
   });
 </script>
