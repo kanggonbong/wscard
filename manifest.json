@@ -4,8 +4,8 @@
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#e0e5ec",
-  "theme_color": "#e0e5ec",
+  "background_color": "#d6e3f3",
+  "theme_color": "#d6e3f3",
   "description": "우성고등학교 법인카드 및 특근매식비 신청/반납 시스템",
   "icons": [
     {
