@@ -10,93 +10,74 @@
 
   <style>
     :root{
-      --bg-color:#d6e3f3;
-      --primary-color:#2563c9;
-      --primary-gradient:linear-gradient(135deg,#3b82f6 0%, #2563eb 55%, #1d4ed8 100%);
-      --text-primary:#1f4175;
-      --text-secondary:#6882a8;
-      --shadow-light:rgba(255,255,255,0.95);
-      --shadow-dark:rgba(110,138,176,0.30);
-      --font-main:'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --bg:#d6e3f3;
+      --primary:#2563eb;
+      --text:#1f4175;
+      --sub:#6882a8;
+      --gradient:linear-gradient(135deg,#3b82f6 0%,#2563eb 55%,#1d4ed8 100%);
+      --shadow-dark:rgba(110,138,176,.30);
+      --shadow-light:rgba(255,255,255,.95);
     }
 
-    *{
-      box-sizing:border-box;
-      -webkit-tap-highlight-color:transparent;
-    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 
-    html, body{
-      width:100%;
-      min-height:100%;
-      margin:0;
-      font-family:var(--font-main);
-      color:var(--text-primary);
-      background:
-        radial-gradient(circle at top left, #f5f9fe 0%, #e4edf8 32%, #d6e3f3 100%);
-      overflow-x:hidden;
+    html,body{
+      margin:0;width:100%;min-height:100%;
+      font-family:'Pretendard',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--text);
+      background:radial-gradient(circle at top left,#f5f9fe 0%,#e4edf8 32%,#d6e3f3 100%);
     }
 
     body{
-      min-height:100vh;
-      min-height:100dvh;
-      display:flex;
-      justify-content:center;
-      align-items:center;
+      min-height:100vh;min-height:100dvh;
+      display:flex;align-items:center;justify-content:center;
       padding:22px;
     }
 
-    .container{
-      width:min(430px, 94vw);
+    .card{
+      width:min(430px,94vw);
       padding:30px 24px;
       border-radius:34px;
       text-align:center;
-      background:linear-gradient(180deg,#f1f5fb 0%, #dce7f5 100%);
-      border:1px solid rgba(255,255,255,0.62);
+      background:linear-gradient(180deg,#f1f5fb 0%,#dce7f5 100%);
+      border:1px solid rgba(255,255,255,.62);
       box-shadow:
-        18px 18px 34px rgba(110,138,176,0.30),
-        -12px -12px 26px rgba(255,255,255,0.95),
-        inset 1px 1px 0 rgba(255,255,255,0.72);
+        18px 18px 34px var(--shadow-dark),
+        -12px -12px 26px var(--shadow-light),
+        inset 1px 1px 0 rgba(255,255,255,.72);
     }
 
     .app-icon{
-      width:78px;
-      height:78px;
+      width:86px;height:86px;
       margin:0 auto 18px;
-      border-radius:24px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:var(--primary-gradient);
-      color:#fff;
-      font-size:2rem;
-      box-shadow:
-        0 14px 24px rgba(37,99,235,0.22),
-        inset 1px 1px 0 rgba(255,255,255,0.35);
+      display:flex;align-items:center;justify-content:center;
+    }
+
+    .app-icon img{
+      width:100%;height:100%;
+      object-fit:contain;
+      filter:drop-shadow(0 10px 18px rgba(37,99,235,.18));
     }
 
     h1{
       margin:0 0 10px;
       font-size:1.85rem;
       font-weight:900;
-      letter-spacing:-0.04em;
-      color:var(--text-primary);
+      letter-spacing:-.04em;
     }
 
     p{
       margin:0;
-      color:var(--text-secondary);
+      color:var(--sub);
       line-height:1.6;
       font-size:1rem;
       font-weight:650;
       word-break:keep-all;
     }
 
-    .guide{
-      display:none;
-      margin-top:22px;
-    }
+    .guide{display:none;margin-top:22px}
 
-    .guide ol{
+    ol{
       list-style:none;
       padding:0;
       margin:22px 0 0;
@@ -105,36 +86,31 @@
       gap:12px;
     }
 
-    .guide li{
+    li{
       display:flex;
       align-items:center;
       gap:12px;
       text-align:left;
       padding:14px 15px;
       border-radius:18px;
-      background:linear-gradient(180deg,#fbfdff 0%, #e8eff8 100%);
-      border:1px solid rgba(255,255,255,0.82);
+      background:linear-gradient(180deg,#fbfdff 0%,#e8eff8 100%);
+      border:1px solid rgba(255,255,255,.82);
       box-shadow:
-        8px 8px 16px rgba(110,138,176,0.22),
-        -6px -6px 14px rgba(255,255,255,0.92),
-        inset 1px 1px 0 rgba(255,255,255,0.68);
-      font-size:0.98rem;
-      font-weight:750;
+        8px 8px 16px rgba(110,138,176,.22),
+        -6px -6px 14px rgba(255,255,255,.92);
       color:#36527f;
+      font-size:.96rem;
+      font-weight:750;
       line-height:1.35;
     }
 
-    .guide li i{
-      width:36px;
-      height:36px;
+    li i{
+      width:36px;height:36px;
       flex:0 0 36px;
       border-radius:50%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:linear-gradient(135deg,#dbeafe 0%, #bfdbfe 100%);
-      color:var(--primary-color);
-      box-shadow:inset 1px 1px 0 rgba(255,255,255,0.7);
+      display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%);
+      color:var(--primary);
     }
 
     .button{
@@ -147,56 +123,59 @@
       gap:10px;
       border-radius:18px;
       text-decoration:none;
-      background:var(--primary-gradient);
-      color:white;
+      background:var(--gradient);
+      color:#fff;
       font-weight:900;
       font-size:1.08rem;
-      box-shadow:
-        0 14px 24px rgba(37,99,235,0.20),
-        inset 1px 1px 0 rgba(255,255,255,0.32);
+      box-shadow:0 14px 24px rgba(37,99,235,.20), inset 1px 1px 0 rgba(255,255,255,.32);
     }
 
-    .button:active{
-      transform:scale(0.98);
-      box-shadow:
-        inset 8px 8px 14px rgba(29,78,216,0.32),
-        inset -6px -6px 12px rgba(96,165,250,0.24);
+    .button:active{transform:scale(.98)}
+
+    .warn{
+      margin-top:16px;
+      padding:13px;
+      border-radius:17px;
+      background:linear-gradient(180deg,#fff7f7 0%,#ffe6e6 100%);
+      color:#ef4444;
+      font-size:.9rem;
+      font-weight:800;
+      line-height:1.5;
     }
 
     .small{
       margin-top:20px;
-      font-size:0.86rem;
       color:#7890b2;
+      font-size:.86rem;
       line-height:1.5;
       font-weight:650;
-    }
-
-    @media (max-width:480px){
-      .container{
-        padding:28px 18px;
-        border-radius:30px;
-      }
-
-      h1{
-        font-size:1.6rem;
-      }
-
-      .app-icon{
-        width:70px;
-        height:70px;
-        border-radius:22px;
-      }
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
+  <div class="card">
     <div class="app-icon">
-      <i class="fa-solid fa-credit-card"></i>
+      <img src="./icon-192.png" alt="우성고 카드 아이콘">
     </div>
 
     <h1>우성고 카드 시스템</h1>
+
+    <div id="inapp-guide" class="guide">
+      <p>현재 앱 안 브라우저에서는<br>설치가 제대로 되지 않을 수 있습니다.</p>
+      <div class="warn">
+        카카오톡, 인스타그램, 네이버앱에서는<br>
+        Chrome 또는 Safari로 열어주세요.
+      </div>
+      <a id="chromeBtn" class="button" href="intent://kanggonbong.github.io/wscard/#Intent;scheme=https;package=com.android.chrome;end">
+        <i class="fab fa-chrome"></i>
+        크롬으로 열기
+      </a>
+      <ol>
+        <li><i class="fa-solid fa-ellipsis"></i> 우측 상단 <b>[⋯]</b> 또는 <b>[공유]</b>를 누르세요.</li>
+        <li><i class="fa-solid fa-up-right-from-square"></i> <b>[다른 브라우저로 열기]</b>를 선택하세요.</li>
+      </ol>
+    </div>
 
     <div id="android-guide" class="guide">
       <p>원활한 설치와 사용을 위해<br>크롬 브라우저에서 진행해주세요.</p>
@@ -207,11 +186,12 @@
     </div>
 
     <div id="ios-guide" class="guide">
-      <p>아이폰은 홈 화면에 추가하면<br>앱처럼 사용할 수 있습니다.</p>
+      <p>아이폰은 Safari에서<br>홈 화면에 추가해 사용합니다.</p>
       <ol>
-        <li><i class="fa-solid fa-arrow-up-from-bracket"></i>하단 공유 버튼을 누르세요.</li>
-        <li><i class="fa-solid fa-square-plus"></i>‘홈 화면에 추가’를 선택하세요.</li>
-        <li><i class="fa-solid fa-plus"></i>‘추가’ 버튼을 누르면 완료됩니다.</li>
+        <li><i class="fa-brands fa-safari"></i> Safari에서 이 페이지를 열어주세요.</li>
+        <li><i class="fa-solid fa-arrow-up-from-bracket"></i> 하단 공유 버튼을 누르세요.</li>
+        <li><i class="fa-solid fa-square-plus"></i> ‘홈 화면에 추가’를 선택하세요.</li>
+        <li><i class="fa-solid fa-plus"></i> ‘추가’를 누르면 완료됩니다.</li>
       </ol>
     </div>
 
@@ -221,13 +201,27 @@
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const isiOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    document.addEventListener("DOMContentLoaded", () => {
+      const ua = navigator.userAgent.toLowerCase();
+      const isiOS = /iphone|ipad|ipod/.test(ua);
+      const isAndroid = /android/.test(ua);
+
+      const isInApp =
+        /kakaotalk|instagram|fbav|fban|\bline\b/i.test(ua) ||
+        (/naver/i.test(ua) && /inapp|app/i.test(ua));
+
+      if (isInApp) {
+        document.getElementById("inapp-guide").style.display = "block";
+        if (!isAndroid) {
+          document.getElementById("chromeBtn").style.display = "none";
+        }
+        return;
+      }
 
       if (isiOS) {
-        document.getElementById('ios-guide').style.display = 'block';
+        document.getElementById("ios-guide").style.display = "block";
       } else {
-        document.getElementById('android-guide').style.display = 'block';
+        document.getElementById("android-guide").style.display = "block";
       }
     });
   </script>
