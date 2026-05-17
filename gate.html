@@ -1,395 +1,201 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <title>우성고 카드 설치</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>우성고 카드 시스템 설치 안내</title>
 
   <link rel="manifest" href="./manifest.json" />
-  <meta name="theme-color" content="#d6e3f3" />
+  <link rel="apple-touch-icon" href="./assets/icon-192.png" />
 
-  <link rel="apple-touch-icon" href="./icon-192.png" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+  <meta name="theme-color" content="#2563eb" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="우성고카드" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
   <style>
-    :root{
-      --bg:#d6e3f3;
-      --primary:#2563eb;
-      --text:#1f4175;
-      --sub:#6882a8;
-      --shadow-dark:rgba(110,138,176,.30);
-      --shadow-light:rgba(255,255,255,.95);
-      --gradient:linear-gradient(135deg,#3b82f6 0%,#2563eb 55%,#1d4ed8 100%);
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, #eef5ff 0%, #dbeafe 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      color: #1f4175;
+      text-align: center;
     }
 
-    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-
-    html,body{
-      width:100%;
-      height:100%;
-      margin:0;
-      font-family:'Pretendard',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      overflow:hidden;
-      color:var(--text);
-      background:radial-gradient(circle at top left,#f5f9fe 0%,#e4edf8 32%,#d6e3f3 100%);
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      border-radius: 28px;
+      padding: 30px 24px;
+      box-shadow: 0 16px 40px rgba(37, 99, 235, 0.16);
     }
 
-    body{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:20px;
+    .logo {
+      width: 92px;
+      height: 92px;
+      border-radius: 24px;
+      margin-bottom: 16px;
     }
 
-    .hide{display:none!important}
-
-    .wrap{
-      width:min(400px,94vw);
-      position:relative;
-      z-index:10;
+    h1 {
+      font-size: 25px;
+      margin: 8px 0 10px;
     }
 
-    .card{
-      padding:32px 24px;
-      border-radius:34px;
-      text-align:center;
-      background:linear-gradient(180deg,#f1f5fb 0%,#dce7f5 100%);
-      border:1px solid rgba(255,255,255,.62);
-      box-shadow:
-        18px 18px 34px var(--shadow-dark),
-        -12px -12px 26px var(--shadow-light),
-        inset 1px 1px 0 rgba(255,255,255,.72);
+    h2 {
+      font-size: 20px;
+      margin: 22px 0 10px;
+      color: #2563eb;
     }
 
-    .app-icon{
-      width:80px;
-      height:80px;
-      margin:0 auto 16px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
+    p {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #526987;
     }
 
-    .app-icon img{
-      width:100%;
-      height:100%;
-      object-fit:contain;
-      filter:drop-shadow(0 8px 15px rgba(37,99,235,.15));
+    .btn {
+      display: block;
+      width: 100%;
+      margin-top: 14px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 16px;
+      border: none;
     }
 
-    h1{
-      margin:0 0 8px;
-      font-size:1.75rem;
-      font-weight:900;
-      letter-spacing:-.04em;
+    .sub {
+      background: #eef4ff;
+      color: #2563eb;
     }
 
-    .desc{
-      margin:0;
-      color:var(--sub);
-      line-height:1.5;
-      font-size:0.95rem;
-      font-weight:700;
-      word-break:keep-all;
+    .guide {
+      margin-top: 18px;
+      background: #eef4ff;
+      padding: 18px;
+      border-radius: 18px;
+      text-align: left;
     }
 
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      margin-top:16px;
-      padding:6px 12px;
-      border-radius:999px;
-      background:linear-gradient(180deg,#fbfdff 0%,#e8eff8 100%);
-      border:1px solid rgba(255,255,255,.82);
-      color:#4d6fa6;
-      font-size:0.85rem;
-      font-weight:800;
+    .guide strong {
+      color: #1d4ed8;
     }
 
-    .warn{
-      margin-top:12px;
-      padding:10px;
-      border-radius:14px;
-      background:linear-gradient(180deg,#fff2f2 0%,#ffe6e6 100%);
-      color:#ef4444;
-      font-size:0.85rem;
-      font-weight:800;
-      line-height:1.5;
+    .guide ol {
+      margin: 10px 0 0;
+      padding-left: 22px;
     }
 
-    ol{
-      list-style:none;
-      padding:0;
-      margin:20px 0 0;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
+    .guide li {
+      margin-bottom: 10px;
+      font-size: 15px;
+      line-height: 1.5;
     }
 
-    li{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      text-align:left;
-      padding:12px 14px;
-      border-radius:16px;
-      background:linear-gradient(180deg,#fbfdff 0%,#e8eff8 100%);
-      border:1px solid rgba(255,255,255,.82);
-      color:#36527f;
-      font-size:0.92rem;
-      font-weight:700;
+    .notice {
+      margin-top: 14px;
+      font-size: 13px;
+      color: #7b8aa3;
     }
 
-    li i{
-      width:32px;
-      height:32px;
-      flex:0 0 32px;
-      border-radius:50%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%);
-      color:var(--primary);
-      font-size:0.9rem;
-    }
-
-    .btns{
-      width:100%;
-      margin-top:24px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-
-    .primary-btn,
-    .link-btn{
-      width:100%;
-      border:0;
-      border-radius:16px;
-      padding:15px;
-      background:var(--gradient);
-      color:#fff;
-      font-weight:900;
-      font-size:1.05rem;
-      cursor:pointer;
-      box-shadow:0 10px 20px rgba(37,99,235,.20);
-      text-decoration:none;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-    }
-
-    .link-btn.secondary{
-      background:linear-gradient(180deg,#fbfdff 0%,#e8eff8 100%);
-      color:#2563eb;
-      border:1px solid rgba(255,255,255,.82);
-    }
-
-    .primary-btn:active,
-    .link-btn:active{transform:scale(.98)}
-
-    .small{
-      margin-top:18px;
-      font-size:0.8rem;
-      color:#8ea2bf;
-      font-weight:600;
-      line-height:1.5;
+    .hidden {
+      display: none;
     }
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <div class="card">
-      <div class="app-icon">
-        <img src="./icon-192.png" alt="아이콘">
+  <div class="card">
+    <img src="./assets/icon-192.png" class="logo" alt="우성고 카드 앱 아이콘" />
+
+    <h1>우성고 카드 시스템</h1>
+    <p>
+      휴대폰 홈 화면에 추가하면<br />
+      앱처럼 바로 사용할 수 있습니다.
+    </p>
+
+    <section id="androidView" class="hidden">
+      <h2>Android 설치</h2>
+      <p>안드로이드는 Chrome 메뉴에서 홈 화면에 추가하면 됩니다.</p>
+
+      <div class="guide">
+        <strong>설치 방법</strong>
+        <ol>
+          <li>Chrome 오른쪽 위 <strong>점 3개 메뉴(⋮)</strong>를 누릅니다.</li>
+          <li><strong>홈 화면에 추가</strong> 또는 <strong>앱 설치</strong>를 선택합니다.</li>
+          <li><strong>추가</strong> 또는 <strong>설치</strong>를 누르면 홈 화면에 아이콘이 생깁니다.</li>
+        </ol>
       </div>
 
-      <h1>우성고 카드</h1>
-      <p class="desc" id="topMsg">최적의 환경을 확인하고 있습니다.</p>
+      <a href="./index.html" class="btn">웹앱 바로 열기</a>
 
-      <span class="badge" id="envBadge">분석 중...</span>
+      <p class="notice">
+        경고가 뜨는 설치 버튼 방식 대신, 브라우저 기본 메뉴로 추가하는 안정 방식입니다.
+      </p>
+    </section>
 
-      <div id="warnMsg" class="warn hide">
-        카톡/네이버/인스타 앱 안에서는 설치가 제대로 되지 않을 수 있습니다.<br>
-        외부 브라우저로 열어주세요.
+    <section id="iosView" class="hidden">
+      <h2>iPhone 설치</h2>
+      <p>아이폰은 공유 메뉴에서 홈 화면에 추가하면 앱처럼 사용할 수 있습니다.</p>
+
+      <div class="guide">
+        <strong>설치 방법</strong>
+        <ol>
+          <li>화면 아래 또는 위의 <strong>공유 버튼</strong>을 누릅니다.</li>
+          <li><strong>홈 화면에 추가</strong>를 선택합니다.</li>
+          <li>오른쪽 위 <strong>추가</strong>를 누르면 홈 화면에 아이콘이 생깁니다.</li>
+        </ol>
       </div>
 
-      <ol id="steps"></ol>
+      <a href="./index.html" class="btn">웹앱 바로 열기</a>
+    </section>
 
-      <div class="btns">
-        <button id="installBtn" class="primary-btn hide" type="button">
-          <i class="fa-solid fa-download"></i>
-          앱 설치하기
-        </button>
+    <section id="installedView" class="hidden">
+      <h2>설치 완료</h2>
+      <p>이미 앱 화면으로 실행 중입니다.</p>
+      <a href="./index.html" class="btn">앱 시작하기</a>
+    </section>
 
-        <a id="chromeBtn" class="link-btn hide" href="intent://kanggonbong.github.io/wscard/#Intent;scheme=https;package=com.android.chrome;end">
-          <i class="fab fa-chrome"></i>
-          크롬으로 열기
-        </a>
-
-        <button id="copyBtn" class="link-btn secondary hide" type="button">
-          <i class="fa-solid fa-copy"></i>
-          주소 복사하기
-        </button>
-
-        <a id="goAppBtn" class="link-btn secondary hide" href="./">
-          카드 바로 열기
-        </a>
-      </div>
-
-      <div class="small">
-        이미 설치했다면 홈 화면의 아이콘을 클릭하세요.
-      </div>
-    </div>
+    <section id="etcView" class="hidden">
+      <h2>모바일에서 접속해주세요</h2>
+      <p>휴대폰 카메라로 QR 코드를 찍어 접속해주세요.</p>
+      <a href="./index.html" class="btn">웹앱 바로 열기</a>
+    </section>
   </div>
 
-<script>
-  const APP_PAGE_URL = "https://kanggonbong.github.io/wscard/";
-  const $ = (id) => document.getElementById(id);
-
-  if ("serviceWorker" in navigator) {
-    if (window.location.protocol.startsWith("http")) {
-      navigator.serviceWorker.register("./sw.js", { scope: "./" }).catch(() => {});
-    }
-  }
-
-  function setSteps(arr){
-    const ol = $("steps");
-    ol.innerHTML = arr.map(v => `<li>${v}</li>`).join("");
-    ol.style.display = arr.length ? "flex" : "none";
-  }
-
-  function show(el){
-    $(el).classList.remove("hide");
-  }
-
-  function hide(el){
-    $(el).classList.add("hide");
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
+  <script>
     const ua = navigator.userAgent.toLowerCase();
 
-    const isiOS = /iphone|ipad|ipod/.test(ua);
     const isAndroid = /android/.test(ua);
+    const isIos = /iphone|ipad|ipod/.test(ua);
 
     const isStandalone =
       window.matchMedia("(display-mode: standalone)").matches ||
       window.navigator.standalone === true;
 
-    const isInApp =
-      /kakaotalk|instagram|fbav|fban|\bline\b/i.test(ua) ||
-      (/naver/i.test(ua) && /inapp|app/i.test(ua));
-
-    $("copyBtn").onclick = async () => {
-      try {
-        await navigator.clipboard.writeText(APP_PAGE_URL);
-        alert("주소가 복사되었습니다.");
-      } catch (e) {
-        prompt("아래 주소를 복사해 주세요.", APP_PAGE_URL);
-      }
-    };
-
     if (isStandalone) {
-      window.location.replace(APP_PAGE_URL);
-      return;
+      document.getElementById("installedView").classList.remove("hidden");
+    } else if (isAndroid) {
+      document.getElementById("androidView").classList.remove("hidden");
+    } else if (isIos) {
+      document.getElementById("iosView").classList.remove("hidden");
+    } else {
+      document.getElementById("etcView").classList.remove("hidden");
     }
-
-    if (isiOS && !isInApp) {
-      window.location.replace(APP_PAGE_URL);
-      return;
-    }
-
-    $("envBadge").innerText = isInApp
-      ? "인앱 브라우저"
-      : isAndroid
-        ? "안드로이드"
-        : isiOS
-          ? "iOS 아이폰"
-          : "PC/기타";
-
-    if (isInApp) {
-      $("topMsg").innerText = "외부 브라우저로 열어주세요.";
-      show("warnMsg");
-      show("copyBtn");
-
-      if (isAndroid) {
-        show("chromeBtn");
-        setSteps([
-          `<i class="fa-solid fa-up-right-from-square"></i><span>아래 <b>크롬으로 열기</b>를 누르세요.</span>`,
-          `<i class="fa-solid fa-download"></i><span>크롬에서 접속 후 설치를 진행하세요.</span>`
-        ]);
-      } else if (isiOS) {
-        setSteps([
-          `<i class="fa-solid fa-copy"></i><span>아래 <b>주소 복사하기</b>를 누르세요.</span>`,
-          `<i class="fa-brands fa-safari"></i><span>Safari 앱을 열고 주소창에 붙여넣으세요.</span>`,
-          `<i class="fa-solid fa-id-card"></i><span>아이폰은 카드 화면으로 바로 이동합니다.</span>`
-        ]);
-      } else {
-        show("goAppBtn");
-        setSteps([
-          `<i class="fa-solid fa-globe"></i><span>외부 브라우저에서 접속해 주세요.</span>`
-        ]);
-      }
-
-      return;
-    }
-
-    if (isAndroid) {
-      let deferredPrompt;
-
-      $("topMsg").innerText = "앱을 설치하면 더 편리합니다.";
-      setSteps([
-        `<i class="fa-solid fa-download"></i><span>설치 버튼이 나타나면 눌러주세요.</span>`,
-        `<i class="fa-solid fa-house"></i><span>설치 후 홈 화면 아이콘으로 실행하세요.</span>`
-      ]);
-
-      window.addEventListener("beforeinstallprompt", (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        show("installBtn");
-      });
-
-      setTimeout(() => {
-        if (!deferredPrompt) {
-          $("topMsg").innerHTML = "이미 설치되어 있거나<br>브라우저 메뉴에서 설치할 수 있습니다.";
-          setSteps([
-            `<i class="fa-solid fa-house"></i><span>홈 화면에서 <b>우성고 카드</b> 아이콘을 확인하세요.</span>`,
-            `<i class="fa-solid fa-ellipsis-vertical"></i><span>아이콘이 없다면 메뉴(⋮) → <b>홈 화면에 추가</b>를 선택하세요.</span>`
-          ]);
-          show("goAppBtn");
-        }
-      }, 2500);
-
-      $("installBtn").onclick = async () => {
-        if (!deferredPrompt) return;
-
-        deferredPrompt.prompt();
-
-        const { outcome } = await deferredPrompt.userChoice;
-
-        if (outcome === "accepted") {
-          hide("installBtn");
-          $("topMsg").innerText = "설치가 완료되었습니다.";
-        }
-
-        deferredPrompt = null;
-      };
-
-      return;
-    }
-
-    $("topMsg").innerText = "모바일 기기에서 접속해주세요.";
-    show("goAppBtn");
-    setSteps([
-      `<i class="fa-solid fa-mobile-screen"></i><span>아이폰은 카드 화면으로 바로 이동합니다.</span>`,
-      `<i class="fa-brands fa-chrome"></i><span>안드로이드는 크롬에서 설치할 수 있습니다.</span>`
-    ]);
-  });
-</script>
+  </script>
 </body>
 </html>
